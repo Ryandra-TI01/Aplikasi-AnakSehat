@@ -16,7 +16,6 @@ return new class extends Migration
             $table->foreignId('child_id')->constrained('children')->onDelete('cascade');
             $table->float('weight')->comment('Weight in kg');
             $table->float('height')->comment('Height in cm');
-            $table->float('head_circumference')->nullable()->comment('Head circumference in cm');
             $table->date('recorded_at')->comment('Date of health record');
             $table->text('notes')->nullable();
             $table->timestamps();
