@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('content');
-            $table->date('created_at');
+            $table->date('date');
             $table->foreignId('doctor_id')->constrained('doctors')->onDelete('cascade');
             $table->timestamps();
         });        
