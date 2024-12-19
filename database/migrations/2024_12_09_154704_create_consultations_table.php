@@ -9,18 +9,18 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('consultations', function (Blueprint $table) {
             $table->id();
-            $table->text('question');
-            $table->enum('status', ['pending', 'answered', 'closed'])->default('pending');
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('doctor_id')->constrained('doctors')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Pengguna
+            $table->foreignId('child_id')->constrained('children')->onDelete('cascade'); // Anak
+            $table->foreignId('doctor_id')->constrained('users')->onDelete('cascade'); // Dokter
+            $table->text('pesan'); // Keluhan pengguna
+            $table->enum('status', ['pending', 'responded'])->default('pending'); // Status konsultasi
             $table->timestamps();
         });
-        
-    }
+    }    
 
     /**
      * Reverse the migrations.

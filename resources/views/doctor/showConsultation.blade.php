@@ -2,6 +2,18 @@
 
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
+    @foreach($konsultasi as $k)
+    <div>
+        <h3>{{ $k->user->nama }} ({{ $k->child->nama }})</h3>
+        <p>Keluhan: {{ $k->pesan }}</p>
+        <form method="POST" action="{{ route('dokter.kirimRespon', $k->id) }}">
+            @csrf
+            <textarea name="respon" rows="3" required></textarea>
+            <button type="submit">Kirim Respon</button>
+        </form>
+    </div>
+@endforeach
+{{-- tahap percobaan --}}
     <div class="row">
         <!-- Basic with Icons -->
         <div class="col-xxl">

@@ -51,7 +51,7 @@
         </div>
     </div>
     <div class="row g-6 mb-6">
-        <div class="col-xxl-4 col-md-6">
+        <div class="col-xxl-6">
           <div class="card bg-primary text-white">
             <div class="card-body">
                 <a href="">
@@ -63,7 +63,7 @@
             </div>
           </div>
         </div>
-        <div class="col-xxl-4 col-md-6">
+        <div class="col-xxl-6">
           <div class="card bg-secondary text-white">
             <div class="card-body">
                 <a href="">
@@ -75,7 +75,7 @@
             </div>
           </div>
         </div>
-        <div class="col-xxl-4 col-md-6">
+        <div class="col-xxl-6">
           <div class="card bg-secondary text-white">
             <div class="card-body">
                 <a href="">
@@ -87,7 +87,7 @@
             </div>
           </div>
         </div>
-        <div class="col-xxl-4 col-md-6">
+        <div class="col-xxl-6">
             <div class="card bg-primary text-white">
               <div class="card-body">
                 <a href="">

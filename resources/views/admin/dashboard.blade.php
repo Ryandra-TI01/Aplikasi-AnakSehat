@@ -220,7 +220,7 @@
                         </div>
                         </div>
                         <p class="mb-1">Pengguna</p>
-                        <h4 class="card-title mb-3">1000</h4>
+                        <h4 class="card-title mb-3">{{ $totalPengguna }}</h4>
                         <small class="text-success fw-medium"><i class="bx bx-up-arrow-alt"></i> +10.42%</small>
                     </div>
                     </div>
@@ -233,7 +233,7 @@
                             <svg style="color: #ffff" xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 14 14"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M5 8.5h4m-2-2v4m5.5-7h-11a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1m-2.5 0v-2a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v2"/></svg>                        </div>
                         </div>
                         <p class="mb-1">Dokter</p>
-                        <h4 class="card-title mb-3">100</h4>
+                        <h4 class="card-title mb-3">{{ $totalDokter }}</h4>
                         <small class="text-success fw-medium"><i class="bx bx-up-arrow-alt"></i> +12.12%</small>
                     </div>
                     </div>
@@ -246,8 +246,8 @@
                             <svg style="color: white" xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"><path fill="currentColor" d="M4 8.923h16V5.385q0-.231-.192-.423t-.423-.193H4.615q-.23 0-.423.192T4 5.384zm0 5.154h16V9.923H4zm.615 5.154h14.77q.23 0 .423-.193t.192-.423v-3.538H4v3.539q0 .23.192.423t.423.192M5.77 7.654V6.039h1.615v1.615zm0 5.154v-1.616h1.615v1.616zm0 5.154v-1.616h1.615v1.616z"/></svg>                        
                         </div>
                         </div>
-                        <p class="mb-1">Dokter</p>
-                        <h4 class="card-title mb-3">100</h4>
+                        <p class="mb-1">Konsultasi</p>
+                        <h4 class="card-title mb-3">{{ $totalKonsultasi }}</h4>
                         <small class="text-success fw-medium"><i class="bx bx-up-arrow-alt"></i> +12.12%</small>
                     </div>
                     </div>
@@ -261,7 +261,7 @@
                             </div>
                         </div>
                         <p class="mb-1">Artikel</p>
-                        <h4 class="card-title mb-3">245</h4>
+                        <h4 class="card-title mb-3">{{ $totalArtikel }}</h4>
                         <small class="text-success fw-medium"><i class="bx bx-up-arrow-alt"></i> +23.12%</small>
                     </div>
                     </div>
