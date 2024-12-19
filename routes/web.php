@@ -36,15 +36,20 @@ route::get('doctor/article/{id}',[DoctorController ::class,'showArticle']);
 route::get('doctor/consultation',[DoctorController ::class,'indexConsultation']);
 route::get('doctor/consultation/{id}',[DoctorController ::class,'showConsultation']);
 route::get('doctor/profile',[DoctorController ::class,'profileDoctor']);
+route::post('doctor/response/{id}',[DoctorController ::class,'sendResponse']);
 
 
 // role untuk user
 route::get('home',[UserController ::class,'home']);
 route::get('profile-anak',[UserController ::class,'profileAnak']);
 route::get('doctor-anak',[UserController ::class,'doctor']);
+route::get('doctor-detail/{id}',[UserController ::class,'detailDoctor']);
 route::get('article',[UserController ::class,'article']);
 route::get('profile-pengguna',[UserController ::class,'profilePengguna']);
-route::get('detail-article/{id}',[UserController ::class,'detailArticle']);
-
+route::get('article/{id}',[UserController ::class,'detailArticle']);
+route::get('consultation',[UserController ::class,'seeResponse']);
+route::post('consultation/send',[UserController ::class,'sendConsultation']);
+route::get('child/{id}',[UserController ::class,'detailChild']);
+route::post('child/{id}',[UserController ::class,'simpanPerkembangan']);
 
 require __DIR__.'/auth.php';

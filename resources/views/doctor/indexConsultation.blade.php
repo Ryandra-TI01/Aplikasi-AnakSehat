@@ -6,10 +6,6 @@
     <div class="card">
         <div class="d-flex align-items-center justify-content-between">
             <h5 class="card-header">Data Konsultasi Saya</h5>
-            <a class="btn btn-primary me-5 text-white">
-                Tambah Konsultasi
-                <svg class="ms-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M19 12.998h-6v6h-2v-6H5v-2h6v-6h2v6h6z"/></svg>
-            </a>
         </div>
     <div class="card-body">
         <div class="table-responsive text-nowrap">
@@ -61,5 +57,19 @@
     </div>
     </div>
     <!--/ Bordered Table -->
+
+    @foreach($consultations as $k)
+<div>
+        <h3>Pengguna: {{ $k->user->nama }} ({{ $k->child->nama }})</h3>
+        <p>Keluhan: {{ $k->pesan }}</p>
+        <form method="POST" action="/doctor/response/{{ $k->id }}">
+            @csrf
+            <textarea name="respon" rows="3" required></textarea>
+            <button type="submit">Kirim Respon</button>
+        </form>
+    </div>
+    @endforeach
+{{-- percobaan --}}
+    
 </div>
 @endsection

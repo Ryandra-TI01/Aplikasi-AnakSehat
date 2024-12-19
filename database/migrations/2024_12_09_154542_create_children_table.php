@@ -9,18 +9,17 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('children', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->date('date_of_birth');
-            $table->enum('gender', ['male', 'female']);
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->string('nama');
+            $table->date('tanggal_lahir');
+            $table->string('jenis_kelamin');
             $table->timestamps();
         });
-        
-    }
+    }    
 
     /**
      * Reverse the migrations.
