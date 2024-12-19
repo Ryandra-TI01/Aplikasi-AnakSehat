@@ -49,4 +49,8 @@ class User extends Authenticatable
     public function children() {
         return $this->hasMany(Children::class);
     }
+
+    public function consultation() {
+        return $this->hasMany(Consultation::class);
+    }
 }
