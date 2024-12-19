@@ -21,7 +21,7 @@ Route::middleware('auth')->group(function () {
 });
 
 // route untuk admin
-route::get('dashboard-admin',[AdminController::class,'index']);
+route::get('dashboard-admin',[AdminController::class,'index'])->name("dashboard.admin");
 route::get('admin/pengguna',[AdminController::class,'indexPengguna']);
 route::get('admin/doctor',[AdminController::class,'indexDoctor']);
 route::get('admin/pengguna/{id}',[AdminController::class,'showPengguna']);
@@ -36,15 +36,20 @@ route::get('doctor/article/{id}',[DoctorController ::class,'showArticle']);
 route::get('doctor/consultation',[DoctorController ::class,'indexConsultation']);
 route::get('doctor/consultation/{id}',[DoctorController ::class,'showConsultation']);
 route::get('doctor/profile',[DoctorController ::class,'profileDoctor']);
+route::post('doctor/response/{id}',[DoctorController ::class,'sendResponse']);
 
 
 // role untuk user
 route::get('home',[UserController ::class,'home']);
 route::get('profile-anak',[UserController ::class,'profileAnak']);
 route::get('doctor-anak',[UserController ::class,'doctor']);
+route::get('doctor-detail/{id}',[UserController ::class,'detailDoctor']);
 route::get('article',[UserController ::class,'article']);
 route::get('profile-pengguna',[UserController ::class,'profilePengguna']);
-route::get('detail-article/{id}',[UserController ::class,'detailArticle']);
-
+route::get('article/{id}',[UserController ::class,'detailArticle']);
+route::get('consultation',[UserController ::class,'seeResponse']);
+route::post('consultation/send',[UserController ::class,'sendConsultation']);
+route::get('child/{id}',[UserController ::class,'detailChild']);
+route::post('child/{id}',[UserController ::class,'simpanPerkembangan']);
 
 require __DIR__.'/auth.php';

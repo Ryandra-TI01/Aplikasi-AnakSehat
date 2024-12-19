@@ -9,16 +9,15 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('consultation_responses', function (Blueprint $table) {
             $table->id();
-            $table->text('response');
-            $table->foreignId('consultation_id')->constrained('consultations')->onDelet('cascade');
-            $table->foreignId('doctor_id')->constrained('doctors')->onDelete('cascade');
+            $table->foreignId('consultation_id')->constrained('consultations')->onDelete('cascade'); // Relasi ke tabel konsultasi
+            $table->foreignId('doctor_id')->constrained('users')->onDelete('cascade'); // Dokter (User dengan role dokter)
+            $table->text('respon'); // Jawaban dari dokter
             $table->timestamps();
         });
-        
     }
 
     /**

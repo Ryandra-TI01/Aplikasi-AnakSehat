@@ -7,19 +7,26 @@ use Illuminate\Database\Eloquent\Model;
 
 class Consultation extends Model
 {
+    /** @use HasFactory<\Database\Factories\ConsultationFactory> */
     use HasFactory;
     protected $table = "consultations";
-    protected $fillable = ["question", "status", "user_id", "doctor_id"];
+    protected $fillable = ['user_id', 'child_id', 'pesan', 'status', 'doctor_id'];
 
-    public function doctor() {
-        return $this->belongsTo(Doctor::class);
-    }
-
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function response() {
-        return $this->hasMany(ConsultationResponse::class);
+    public function child()
+    {
+        return $this->belongsTo(Children::class);
+    }
+
+    public function response()
+    {
+        return $this->hasOne(ConsultationResponse::class);
+    }
+    public function doctor(){
+        return $this->belongsTo(Doctor::class, 'doctor_id');
     }
 }

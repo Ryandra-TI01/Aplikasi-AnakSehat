@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('child_health_data', function (Blueprint $table) {
             $table->id();
             $table->foreignId('child_id')->constrained('children')->onDelete('cascade');
-            $table->float('weight')->comment('Weight in kg');
-            $table->float('height')->comment('Height in cm');
-            $table->date('recorded_at')->comment('Date of health record');
-            $table->text('notes')->nullable();
+            $table->integer('bulan');
+            $table->float('berat')->comment('berat in kg');
+            $table->float('tinggi')->comment('tinggi in cm');
+            $table->string('status_gizi')->nullable();
             $table->timestamps();
         });
         
