@@ -10,9 +10,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified', 'auth:admin'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -21,7 +21,7 @@ Route::middleware('auth')->group(function () {
 });
 
 // route untuk admin
-route::get('dashboard-admin',[AdminController::class,'index'])->name("dashboard.admin");
+route::get('dashboard-admin',[AdminController::class,'index'])->name("dashboard-admin");
 route::get('admin/pengguna',[AdminController::class,'indexPengguna']);
 route::get('admin/doctor',[AdminController::class,'indexDoctor']);
 route::get('admin/pengguna/{id}',[AdminController::class,'showPengguna']);
