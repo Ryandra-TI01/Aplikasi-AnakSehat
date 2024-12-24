@@ -2,13 +2,16 @@
 
 namespace App\Models;
 
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class Doctor extends Model
+class Doctor extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
+
     protected $table = "doctors";
+    protected $guard = "doctor";
     protected $fillable = ["name", "email", "password", "phone_number", "certificate", "status"];
 
     public function article() {
@@ -21,5 +24,10 @@ class Doctor extends Model
 
     public function response() {
         return $this->hasMany(ConsultationResponse::class);
+    }
+
+    public function hasRole($role)
+    {
+        return $this->role === $role;
     }
 }

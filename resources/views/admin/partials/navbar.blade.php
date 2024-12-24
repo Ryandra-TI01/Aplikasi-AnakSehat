@@ -55,8 +55,8 @@ id="layout-navbar">
                 </div>
               </div>
               <div class="flex-grow-1">
-                <h6 class="mb-0">John Doe</h6>
-                <small class="text-muted">Admin</small>
+                <h6 class="mb-0">{{Auth::user()->name}}</h6>
+                <small class="text-muted">{{Auth::user()->role}}</small>
               </div>
             </div>
           </a>
@@ -65,7 +65,7 @@ id="layout-navbar">
           <div class="dropdown-divider my-1"></div>
         </li>
         <li>
-          <a class="dropdown-item" href="#">
+          <a class="dropdown-item" href="/profile">
             <i class="bx bx-user bx-md me-3"></i><span>My Profile</span>
           </a>
         </li>
@@ -80,6 +80,7 @@ id="layout-navbar">
       </ul>
     </li>
     <!--/ User -->
+  </ul>
   </ul>
 </div>
 </nav>

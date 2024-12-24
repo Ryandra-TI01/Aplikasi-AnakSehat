@@ -22,30 +22,28 @@
         Rekomendasi artikel untukmu
     </h4>
     <div class="row mb-12 g-6">
-        @for($i = 0; $i < 4; $i++)
-        <div class="col-6">
-          <div class="card">
-            <div class="d-flex">
-              <div class="d-flex justify-content-center align-items-center overflow-hidden">
-                <a href="">
-                    <img class="card-img card-img-left" style="object-fit: cover" src="https://images.unsplash.com/photo-1581578021450-fbd19fba0e63?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8aGVhbHRoJTIwY2hpbGR8ZW58MHx8MHx8fDA%3D" alt="Card image">
-                </a>
-              </div>
-              <div>
-                <div class="card-body">
-                  <h5 class="card-title">
-                    <a href="">5 Tips Menjaga Kesehatan Anak</a>
-                  </h5>
-                  <p class="card-text">
-                    Menjaga kesehatan anak adalah hal utama yang penting dilakukan oleh setiap orang tua demi tumbuh kembang anak yang optimal. Jika anak sehat, tumbuh kembangnya optimal...
-                  </p>
-                  <p class="card-text"><small class="text-muted">Published 10 Mei 2023</small></p>
+      @foreach($articles as $k)
+      <div class="col-md-6">
+          <a href="/article/{{$k->id}}">
+              <div class="card">
+                <div class="d-flex">
+                  <div class="overflow-hidden">
+                    <img class="" style="object-fit: cover; height: 200px; widhth: 100px;" src="{{$k->image}}" alt="Card image">
+                  </div>
+                  <div>
+                    <div class="card-body">
+                      <h5 class="card-title">{{$k->title}}</h5>
+                      <p class="card-text">
+                       {{$k->content}}
+                      </p>
+                      <p class="card-text"><small class="text-muted">Published {{$k->date}}</small></p>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-        @endfor
-    </div>
+          </a>
+      </div>
+      @endforeach
+  </div>
 </div>
 @endsection

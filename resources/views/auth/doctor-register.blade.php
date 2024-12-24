@@ -10,11 +10,11 @@
                     <div class="app-brand justify-content-center mb-6">
                         <div class="d-flex align-items-center gap-2">
                             <img src="{{asset('admin/assets/img/logo-rpl.jpeg')}}" alt="" width="50px">
-                            <div class="app-brand-text demo text-heading fw-medium mb-2">Anak Sehat</div>
+                            <div class="app-brand-text demo text-heading fw-medium mb-2">Anak Sehat - Doctor</div>
                         </div>
                     </div>
     
-                    <form method="POST" action="/register">
+                    <form method="POST" action="/doctor/register">
                         @csrf
                         <div class="mb-6">
                             <label for="nama" class="form-label">Nama</label>
@@ -54,7 +54,7 @@
                     </form>
                     <p class="text-center">
                         <span>Already have an account?</span>
-                        <a href="auth-login-basic.html">
+                        <a href="/doctor/login">
                           <span>Sign in instead</span>
                         </a>
                       </p>

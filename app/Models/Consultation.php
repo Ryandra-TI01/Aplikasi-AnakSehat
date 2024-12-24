@@ -19,7 +19,7 @@ class Consultation extends Model
 
     public function child()
     {
-        return $this->belongsTo(Children::class);
+        return $this->belongsTo(Child::class);
     }
 
     public function response()

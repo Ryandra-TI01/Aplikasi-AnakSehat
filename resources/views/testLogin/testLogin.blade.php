@@ -1,4 +1,4 @@
-@extends('layouts.userAutentikasi') 
+@extends('layouts.testLogin') 
 @section('content')
 <div style="width: 100vw;height:100vh;" class="d-flex justify-content-center align-items-center" >
     <div class="authentication-wrapper authentication-basic container-p-y" style="width: 40%;max-width: 500px;">
@@ -10,16 +10,15 @@
                     <div class="app-brand justify-content-center mb-6">
                         <div class="d-flex align-items-center gap-2">
                             <img src="{{asset('admin/assets/img/logo-rpl.jpeg')}}" alt="" width="50px">
-                            <div class="app-brand-text demo text-heading fw-medium mb-2">Anak Sehat</div>
+                            <div class="app-brand-text demo text-heading fw-medium mb-2">Anak Sehat - Doctor</div>
                         </div>
                     </div>
                 
 
-                    <form method="POST" action="/login">
-                        @csrf
+                    <form id="formAuthentication" class="mb-6" action="index.html">
                         <div class="mb-6">
                             <label for="email" class="form-label">Email</label>
-                            <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" autofocus="" />
+                            <input type="text" class="form-control" id="email" name="email-username" placeholder="Enter your email" autofocus="" />
                         </div>
                         <div class="mb-6 form-password-toggle">
                             <label class="form-label" for="password">Password</label>

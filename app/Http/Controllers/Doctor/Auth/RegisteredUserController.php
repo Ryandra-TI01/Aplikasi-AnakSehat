@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Doctor\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Models\Doctor;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -19,7 +19,7 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register');
+        return view('auth.doctor-register');
     }
 
     /**
@@ -31,22 +31,22 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'phone_number'=>'required|string|max:20',
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.Doctor::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $user = User::create([
+        $doctor = Doctor::create([
             'name' => $request->name,
             'email' => $request->email,
             'phone_number'=>$request->phone_number,
             'password' => Hash::make($request->password),
         ]);
 
-        event(new Registered($user));
+        event(new Registered($doctor));
 
-        Auth::login($user);
+        Auth::guard('doctor')->login($doctor);
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect(route('dashboard.doctor', absolute: false));
     }
 }

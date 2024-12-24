@@ -17,6 +17,6 @@ class ChildHealthData extends Model
         'status_gizi',
     ];
     public function child(){
-        return $this->belongsTo(Children::class);
+        return $this->belongsTo(Child::class);
     }
 }
