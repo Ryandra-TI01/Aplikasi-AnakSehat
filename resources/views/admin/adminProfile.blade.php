@@ -25,6 +25,7 @@
                             placeholder="John Doe"
                             aria-label="John Doe"
                             aria-describedby="basic-icon-default-fullname2" />
+                            {{ $admin->name }}
                         </div>
                     </div>
                     </div>

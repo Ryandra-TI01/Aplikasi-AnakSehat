@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Child;
 use App\Models\ChildHealthData;
-use App\Models\Children;
 use App\Models\Consultation;
 use App\Models\Doctor;
 use Illuminate\Http\Request;
@@ -69,7 +68,7 @@ class UserController extends Controller
     // method akhir konsultasi
     // method untuk status gizi
     public function detailChild($child_id) {
-        $child = Children::findOrFail($child_id);
+        $child = Child::findOrFail($child_id);
         return view('user.detailChild', compact('child'));
     }
     public function calculateNutritionStatus($tinggi, $berat, $bulan)
@@ -100,7 +99,7 @@ class UserController extends Controller
             'berat' => 'required|numeric|min:2',
         ]);
 
-        $child = Children::findOrFail($child_id);
+        $child = Child::findOrFail($child_id);
         // $bulan = now()->diffInMonths($child->tanggal_lahir);
 
         // Hitung status gizi
