@@ -16,6 +16,7 @@ class Child extends Model
     }
 
     public function childHealtData() {
+
         return $this->hasMany(ChildHealthData::class);
     }
 }

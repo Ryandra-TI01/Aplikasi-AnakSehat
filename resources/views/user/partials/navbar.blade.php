@@ -96,6 +96,7 @@ id="layout-navbar">
             <i class="bx bx-power-off bx-md me-3"></i><span>Log Out</span>
           </button>
           </form>
+
         </li>
       </ul>
     </li>

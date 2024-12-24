@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use PhpParser\Comment\Doc;
 
 Route::get('/', function () {
     return view('welcome');
@@ -38,13 +39,23 @@ Route::middleware('auth:doctor')->group(function () {
 
 
 // route untuk admin
-route::get('dashboard-admin',[AdminController::class,'index'])->name("dashboard.admin");
-route::get('admin/pengguna',[AdminController::class,'indexPengguna']);
-route::get('admin/doctor',[AdminController::class,'indexDoctor']);
-route::get('admin/pengguna/{id}',[AdminController::class,'showPengguna']);
-route::get('admin/doctor/{id}',[AdminController::class,'showDoctor']);
-route::get('admin/profile',[AdminController::class,'adminProfile']);
-
+Route::prefix('admin')->group(function() {
+    route::get('dashboard-admin',[AdminController::class,'index'])->name("dashboard-admin"); // nama blm diganti
+    route::get('pengguna',[AdminController::class,'indexPengguna'])->name('indexPengguna');
+    route::get('pengguna/{id}',[AdminController::class,'showPengguna'])->name('showPengguna');
+    route::get('pengguna/{id}/edit', [AdminController::class, 'editPengguna'])->name('editPengguna');
+    route::put('pengguna/{id}', [AdminController::class, 'updatePengguna'])->name('updatePengguna');
+    Route::delete('pengguna/{id}/delete', [AdminController::class, 'destroyPengguna'])->name('deletePengguna');
+    route::get('doctor',[AdminController::class,'indexDoctor'])->name('indexDokter');
+    route::get('doctor/{id}',[AdminController::class,'showDoctor'])->name('showDokter');
+    route::get('doctor/{id}/edit', [AdminController::class, 'editDoctor'])->name('editDokter');
+    route::put('doctor/{id}', [AdminController::class, 'updateDoctor'])->name('updateDokter');
+    route::delete('doctor/{id}/delete', [AdminController::class, 'destroyDoctor'])->name('deleteDokter');
+    route::get('profile',[AdminController::class, 'adminProfile'])->name('profile-admin'); // belum
+    route::get('profile',[AdminController::class, 'editAdmin'])->name('editAdmin'); // belum
+    route::get('profile',[AdminController::class, 'updateAdmin'])->name('updateAdmin'); // belum
+});
 
 require __DIR__.'/doctor-auth.php';
+
 require __DIR__.'/auth.php';

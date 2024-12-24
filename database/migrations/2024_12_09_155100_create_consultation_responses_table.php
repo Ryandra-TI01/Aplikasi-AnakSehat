@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('consultation_responses', function (Blueprint $table) {
             $table->id();
             $table->foreignId('consultation_id')->constrained('consultations')->onDelete('cascade'); // Relasi ke tabel konsultasi
-            $table->foreignId('doctor_id')->constrained('users')->onDelete('cascade'); // Dokter (User dengan role dokter)
+            $table->foreignId('doctor_id')->constrained('doctors')->onDelete('cascade'); // Dokter (User dengan role dokter)
             $table->text('respon'); // Jawaban dari dokter
             $table->timestamps();
         });
