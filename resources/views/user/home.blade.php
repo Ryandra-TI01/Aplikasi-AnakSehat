@@ -3,13 +3,21 @@
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
     <div class="row mb-6">
+        @if (session()->has('success'))
+        <div class="col-12">
+            <div class="alert alert-success" role="alert">
+                {{ session('success') }}
+            </div>
+        </div>
+        @endif
+
         {{-- header nama --}}
         <div class="col-xl-12 order-0">
             <div class="card">
             <div class="d-flex align-items-start row">
                 <div class="col-sm-7">
                 <div class="card-body">
-                    <h3 class="card-title text-primary mb-3">Halo Ryandra Athaya Saleh </h3>
+                    <h3 class="card-title mb-3">Halo {{ Auth::user()->name }}</h3>
                     <p class="mb-6">
                     Selamat datang di Halaman Pengguna.
                     </p>
@@ -28,47 +36,72 @@
         </div>
     </div>
     <div class="row mb-6">
-        <div class="col-md-4">
+        @foreach ($children as $k)  
+        <div class="col-md-4 mb-6">
             <div class="card">
                 <div class="card-body">
-                  <h5 class="card-title">Antonion La Santo</h5>
+                  <h5 class="card-title">{{$k->nama}}</h5>
                   <p class="card-text">
-                    <span>Tanggal Lahir : 17 Agustus 2022</span>
-                    <br>
-                    <span>Umur : 2 tahun</span>
-                    <br>
-                    <span>Gender : Laki-laki</span>
-                    <br>
-                    <span>Status : Gizi Normal</span>
+                    <p>Tanggal Lahir : {{$k->tanggal_lahir}}</p>
+                    <p>Umur : {{$k->umur}} bulan </p>
+                    <p>Gender : {{$k->jenis_kelamin}}</p>
+                    <p>Status Gizi: 
+                        @if ($k->childHealtData->isNotEmpty())
+                            {{ $k->childHealtData->first()->status_gizi }}
+                        @else
+                            Belum ada data
+                        @endif
+                    </p>
                   </p>
-                  <a href="javascript:void(0)" class="btn btn-primary">Detail</a>
+                  <a href="/child/{{ $k->id }}" class="btn btn-primary">Detail</a>
                 </div>
             </div>
         </div>
+        @endforeach
         <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                  <h5 class="card-title">Antonion La Santo</h5>
-                  <p class="card-text">
-                    <span>Tanggal Lahir : 17 Agustus 2022</span>
-                    <br>
-                    <span>Umur : 2 tahun</span>
-                    <br>
-                    <span>Gender : Laki-laki</span>
-                    <br>
-                    <span>Status : Gizi Normal</span>
-                  </p>
-                  <a href="javascript:void(0)" class="btn btn-primary">Detail</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card" style="height: 100%">
+            <div class="card" style="height: 92%">
                 <div class="card-body d-flex align-items-center justify-content-evenly flex-column">
-                    <a href="" class="text-center">
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Akun Anak</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form action="{{ route('store-child') }}" method="POST">
+                                @csrf
+                                <div class="modal-body">
+                                    <div class="card-body">
+                                      <div class="mb-6">
+                                        <label class="form-label" for="basic-default-fullname">Nama Anak</label>
+                                        <input type="text" class="form-control" id="basic-default-fullname" placeholder="John Doe" name="nama" required>
+                                      </div>
+                                      <div class="mb-6">
+                                        <label class="form-label" for="basic-default-company">Tanggal Lahir</label>
+                                        <input type="date" class="form-control" id="basic-default-company" name="tanggal_lahir" placeholder="ACME Inc." required>
+                                      </div>
+                                      <div class="mb-6">
+                                        <label class="form-label" for="basic-default-phone">Jenis Kelamin</label>
+                                        <select class="form-select" id="exampleFormControlSelect1" name="jenis_kelamin" aria-label="Default select example" required>
+                                            <option value="Laki-laki">Laki-Laki</option>
+                                            <option value="Perempuan">Perempuan</option>
+                                          </select>
+                                      </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="ms-3 btn btn-primary">Simpan</button>
+                                </div>
+                            </form>
+                        </div>
+                        </div>
+                    </div>
+                    <a href="" class="text-center" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         <svg class="rounded-circle bg-primary text-white p-2" xmlns="http://www.w3.org/2000/svg" width="20%" hight="20%" viewBox="0 0 24 24"><path fill="currentColor" d="M19 12.998h-6v6h-2v-6H5v-2h6v-6h2v6h6z"/></svg>
                     </a>
-                    <h5 class="card-title">
+                    <h5 class="card-title ">
                         Tambah Anak
                     </h5>
                 </div>
@@ -142,51 +175,37 @@
             </div>
         </div>
     </div>
-    <div class="d-flex align-items-center justify-content-between mb-6">
-        <h2>Artikel Kesehatan Anak</h2>
-        <p>
-            <a href="">Lihat Semua</a>
-        </p>
-    </div>
-    <div class="row mb-12 g-6">
-        <div class="col-md">
-            <div class="card">
-              <div class="d-flex">
-                <div class="d-flex justify-content-center align-items-center ">
-                  <img class="card-img card-img-left" style="object-fit: cover" src="https://images.unsplash.com/photo-1581578021450-fbd19fba0e63?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8aGVhbHRoJTIwY2hpbGR8ZW58MHx8MHx8fDA%3D" alt="Card image">
-                </div>
-                <div>
-                  <div class="card-body">
-                    <h5 class="card-title">5 Tips Menjaga Kesehatan Anak</h5>
-                    <p class="card-text">
-                      Menjaga kesehatan anak adalah hal utama yang penting dilakukan oleh setiap orang tua demi tumbuh kembang anak yang optimal. Jika anak sehat, tumbuh kembangnya optimal...
-                    </p>
-                    <p class="card-text"><small class="text-muted">Published 10 Mei 2023</small></p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        <div class="col-md">
-          <div class="card">
-            <div class="d-flex">
-              <div class="d-flex justify-content-center align-items-center overflow-hidden">
-                <img class="card-img card-img-left" style="object-fit: cover" src="https://images.unsplash.com/photo-1581578021450-fbd19fba0e63?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8aGVhbHRoJTIwY2hpbGR8ZW58MHx8MHx8fDA%3D" alt="Card image">
-              </div>
-              <div>
-                <div class="card-body">
-                  <h5 class="card-title">5 Tips Menjaga Kesehatan Anak</h5>
-                  <p class="card-text">
-                    Menjaga kesehatan anak adalah hal utama yang penting dilakukan oleh setiap orang tua demi tumbuh kembang anak yang optimal. Jika anak sehat, tumbuh kembangnya optimal...
-                  </p>
-                  <p class="card-text"><small class="text-muted">Published 10 Mei 2023</small></p>
-                </div>
-              </div>
-            </div>
-          </div>
+    <div class="card bg-primary text-white mb-6">
+        <div class="card-body d-flex align-items-center justify-content-between">
+          <h4 class="card-title text-white">Artikel Kesehatan Anak</h4>
+          <p class="card-text">
+            <a href="/article" class="text-white">Lihat Semua</a>
+          </p>
         </div>
     </div>
-
-
+    <div class="row mb-12 g-6">
+        @foreach($articles as $k)
+        <div class="col-md-6">
+            <a href="/article/{{$k->id}}">
+                <div class="card">
+                  <div class="d-flex">
+                    <div class="overflow-hidden">
+                      <img class="" style="object-fit: cover; height: 200px; widhth: 100px;" src="{{$k->image}}" alt="Card image">
+                    </div>
+                    <div>
+                      <div class="card-body">
+                        <h5 class="card-title">{{$k->title}}</h5>
+                        <p class="card-text">
+                         {{$k->content}}
+                        </p>
+                        <p class="card-text"><small class="text-muted">Published {{$k->date}}</small></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </a>
+        </div>
+        @endforeach
+    </div>
 </div>
 @endsection

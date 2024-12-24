@@ -20,12 +20,12 @@
                 <div class="card-body">
                 <h5 class="card-title">Doctor {{$doctor->name}}</h5>
                 <p class="card-text">
-                    dokter spesialis anak
+                    status:
+                    @if ($doctor->status == 'Sudah Terverifikasi')
+                        <span class="badge bg-label-success">Sudah Terverifikasi</span>
+                    @endif
                 </p>
-                <p class="card-text">
-                    status : online
-                </p>
-                <a href="doctor-detail/{{$doctor->id}}" class="btn btn-outline-primary">Chat Dokter</a>
+                <a href="/doctor-detail/{{$doctor->id}}" class="btn btn-outline-primary">Chat Dokter</a>
                 </div>
             </div>
             </div>

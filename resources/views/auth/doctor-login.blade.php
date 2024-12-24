@@ -3,19 +3,19 @@
 <div style="width: 100vw;height:100vh;" class="d-flex justify-content-center align-items-center" >
     <div class="authentication-wrapper authentication-basic container-p-y" style="width: 40%;max-width: 500px;">
         <div class="authentication-inner">
-            <!-- Register -->
+            <!-- login -->
             <div class="card px-sm-6 px-0">
                 <div class="card-body">
                     <!-- Logo -->
                     <div class="app-brand justify-content-center mb-6">
                         <div class="d-flex align-items-center gap-2">
                             <img src="{{asset('admin/assets/img/logo-rpl.jpeg')}}" alt="" width="50px">
-                            <div class="app-brand-text demo text-heading fw-medium mb-2">Anak Sehat</div>
+                            <div class="app-brand-text demo text-heading fw-medium mb-2">Anak Sehat - Doctor</div>
                         </div>
                     </div>
                 
 
-                    <form method="POST" action="/login">
+                    <form method="POST" id="formAuthentication" class="mb-6" action="/doctor/login">
                         @csrf
                         <div class="mb-6">
                             <label for="email" class="form-label">Email</label>
@@ -48,7 +48,7 @@
 
                     <p class="text-center">
                         <span>New on our platform?</span>
-                        <a href="auth-register-basic.html">
+                        <a href="{{route('doctor.register')}}">
                             <span>Create an account</span>
                         </a>
                     </p>

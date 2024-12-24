@@ -2,28 +2,75 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Article;
 use App\Models\Child;
 use App\Models\ChildHealthData;
 use App\Models\Consultation;
 use App\Models\Doctor;
+use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+
+    public function testLogin(){
+        return view("testLogin.testLogin");
+    }
+    public function testRegister(){
+        return view("testLogin.testRegister");
+    }
+
+
+
     public function home(){
-        return view("user.home");
+        $user = Auth::user();
+        // Ambil semua anak dari user yang login
+        $children = Child::where('user_id', $user->id)
+        ->with(['childHealtData' => function ($query) {
+            $query->latest('bulan')->limit(1); // Hanya ambil data perkembangan terbaru
+        }])
+        ->get();
+
+        $articles = Article::with('doctor')->latest()->limit(4)->get();
+        return view("user.home",compact('children','articles'));
+    }
+    public function storeChild(Request $request){
+        $user = Auth::user();
+        $request->validate([
+            'nama' => 'required',
+            'tanggal_lahir'=>'required',
+            'jenis_kelamin'=>'required|in:Laki-laki,Perempuan',
+        ]);
+        Child::create([
+            'user_id' => $user->id,
+            'nama' => $request->nama,
+            'tanggal_lahir' => $request->tanggal_lahir,
+            'jenis_kelamin' => $request->jenis_kelamin,
+        ]);
+
+        return redirect()->back()->with('success', 'Anak berhasil ditambahkan!');
     }
     public function profileAnak(){
-        return view("user.profileAnak");
+        $user = Auth::user();
+        $children = Child::where('user_id', $user->id)
+        ->with(['childHealtData' => function ($query) {
+            $query->latest('bulan')->limit(1); // Hanya ambil data perkembangan terbaru
+        }])
+        ->get();
+        // percobaan
+        return view("user.profileAnak",compact('children'));
     }
     public function article(){
-        return view("user.article");
+        $articles = Article::with('doctor')->latest()->get();
+        return view("user.article",compact('articles'));
     }
     public function profilePengguna(){
         return view("user.profilePengguna");
     }
     public function detailArticle($id){
-        return view("user.detailArticle");
+        $data = Article::findOrFail($id);
+        return view("user.detailArticle",compact('data'));
     }
     // method untuk konsultasi
     public function doctor(){
@@ -32,14 +79,14 @@ class UserController extends Controller
     }
     public function detailDoctor($id){
         $doctor = Doctor::where('id',$id)->where('status', 'Sudah Terverifikasi')->firstOrFail();
-        return view("user.detailDoctor",compact('doctor'));
+        $user = Auth::user();
+        $child = Child::where('user_id', $user->id)->get();
+
+        return view("user.doctorDetail",compact('doctor','child'));
     }
-    // public function consultation(){
-    //     $consultations = Consultation::where('user_id', 1)->with('child')->get();
-    //     return view("user.seeResponse",compact('consultations'));
-    // }
     public function sendConsultation(Request $request)
     {
+        $user = Auth::user();
         $request->validate([
             'child_id' => 'required|exists:children,id',
             'doctor_id' => 'required|exists:doctors,id',
@@ -47,29 +94,30 @@ class UserController extends Controller
         ]);
 
         Consultation::create([
-            'user_id' => auth()->$request->id,
+            'user_id' => $user->id ,
             'doctor_id' => $request->doctor_id,
             'child_id' => $request->child_id,
             'pesan' => $request->pesan,
             'status' => 'pending',
         ]);
 
-        return back()->with('success', 'Konsultasi berhasil dikirim.');
+        return redirect('/consultation')->with('success', 'Konsultasi berhasil dikirim.');
     }
     public function seeResponse()
     {
-        $consultation = Consultation::where('user_id', 1)
-            ->where('status', 'responded')
+        $user = Auth::user();
+        $consultation = Consultation::where('user_id',$user->id )
             ->with('child', 'doctor')
             ->get();
 
         return view('user.seeResponse', compact('consultation'));
     }
-    // method akhir konsultasi
-    // method untuk status gizi
+    
     public function detailChild($child_id) {
         $child = Child::findOrFail($child_id);
-        return view('user.detailChild', compact('child'));
+        $childHealtData = $child->childHealtData()->orderBy('bulan', 'asc')->get();
+        $latestChildHealthData = $child->childHealtData()->orderBy('bulan', 'desc')->first();
+        return view('user.detailChild', compact( 'child','childHealtData', 'latestChildHealthData'));
     }
     public function calculateNutritionStatus($tinggi, $berat, $bulan)
     {
@@ -99,14 +147,17 @@ class UserController extends Controller
             'berat' => 'required|numeric|min:2',
         ]);
 
-        $child = Child::findOrFail($child_id);
-        // $bulan = now()->diffInMonths($child->tanggal_lahir);
-
+        
         // Hitung status gizi
         $status_gizi = $this->calculateNutritionStatus($request->tinggi, $request->berat, $request->bulan);
+        
+        $child = Child::findOrFail($child_id);
+        $child->update([
+            'umur'=>$request->bulan
+        ]);
 
         // Simpan data perkembangan
-        $perkembangan = ChildHealthData::create([
+        ChildHealthData::create([
             'child_id' => $child_id,
             'bulan' => $request->bulan,
             'tinggi' => $request->tinggi,
@@ -116,8 +167,5 @@ class UserController extends Controller
 
         return redirect()->back()->with('success', 'Data perkembangan anak berhasil disimpan!');
     }
-    // method akhir status gizi
-
-
 
 }

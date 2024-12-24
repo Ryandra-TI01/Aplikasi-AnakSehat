@@ -2,56 +2,90 @@
 
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
-    <div class="row mb-6">
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                  <h5 class="card-title">Antonion La Santo</h5>
-                  <p class="card-text">
-                    <span>Tanggal Lahir : 17 Agustus 2022</span>
-                    <br>
-                    <span>Umur : 2 tahun</span>
-                    <br>
-                    <span>Gender : Laki-laki</span>
-                    <br>
-                    <span>Status : Gizi Normal</span>
-                  </p>
-                  <a href="javascript:void(0)" class="btn btn-primary">Detail</a>
-                </div>
-            </div>
+  <div class="row mb-6">
+    @if (session()->has('success'))
+    <div class="col-12">
+        <div class="alert alert-success" role="alert">
+            {{ session('success') }}
         </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                  <h5 class="card-title">Antonion La Santo</h5>
-                  <p class="card-text">
-                    <span>Tanggal Lahir : 17 Agustus 2022</span>
-                    <br>
-                    <span>Umur : 2 tahun</span>
-                    <br>
-                    <span>Gender : Laki-laki</span>
-                    <br>
-                    <span>Status : Gizi Normal</span>
-                  </p>
-                  <a href="javascript:void(0)" class="btn btn-primary">Detail</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card" style="height: 100%">
-                <div class="card-body d-flex align-items-center justify-content-evenly flex-column">
-                    <a href="" class="text-center">
-                        <svg class="rounded-circle bg-primary text-white p-2" xmlns="http://www.w3.org/2000/svg" width="20%" hight="20%" viewBox="0 0 24 24"><path fill="currentColor" d="M19 12.998h-6v6h-2v-6H5v-2h6v-6h2v6h6z"/></svg>
-                    </a>
-                    <h5 class="card-title">
-                        Tambah Anak
-                    </h5>
-                </div>
+    </div>
+    @endif
+  </div>
+  <div class="row mb-6">
+    @foreach ($children as $k)  
+    <div class="col-md-4 mb-6">
+        <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">{{$k->nama}}</h5>
+              <p class="card-text">
+                <p>Tanggal Lahir : {{$k->tanggal_lahir}}</p>
+                <p>Umur : {{$k->umur}} bulan </p>
+                <p>Gender : {{$k->jenis_kelamin}}</p>
+                <p>Status Gizi: 
+                    @if ($k->childHealtData->isNotEmpty())
+                        {{ $k->childHealtData->first()->status_gizi }}
+                    @else
+                        Belum ada data
+                    @endif
+                </p>
+              </p>
+              <a href="/child/{{ $k->id }}" class="btn btn-primary">Detail</a>
             </div>
         </div>
     </div>
+    @endforeach
+    <div class="col-md-4">
+        <div class="card" style="height: 92%">
+            <div class="card-body d-flex align-items-center justify-content-evenly flex-column">
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Akun Anak</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form action="{{ route('store-child') }}" method="POST">
+                            @csrf
+                            <div class="modal-body">
+                                <div class="card-body">
+                                  <div class="mb-6">
+                                    <label class="form-label" for="basic-default-fullname">Nama Anak</label>
+                                    <input type="text" class="form-control" id="basic-default-fullname" placeholder="John Doe" name="nama" required>
+                                  </div>
+                                  <div class="mb-6">
+                                    <label class="form-label" for="basic-default-company">Tanggal Lahir</label>
+                                    <input type="date" class="form-control" id="basic-default-company" name="tanggal_lahir" placeholder="ACME Inc." required>
+                                  </div>
+                                  <div class="mb-6">
+                                    <label class="form-label" for="basic-default-phone">Jenis Kelamin</label>
+                                    <select class="form-select" id="exampleFormControlSelect1" name="jenis_kelamin" aria-label="Default select example" required>
+                                        <option value="Laki-laki">Laki-Laki</option>
+                                        <option value="Perempuan">Perempuan</option>
+                                      </select>
+                                  </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="ms-3 btn btn-primary">Simpan</button>
+                            </div>
+                        </form>
+                    </div>
+                    </div>
+                </div>
+                <a href="" class="text-center" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <svg class="rounded-circle bg-primary text-white p-2" xmlns="http://www.w3.org/2000/svg" width="20%" hight="20%" viewBox="0 0 24 24"><path fill="currentColor" d="M19 12.998h-6v6h-2v-6H5v-2h6v-6h2v6h6z"/></svg>
+                </a>
+                <h5 class="card-title ">
+                    Tambah Anak
+                </h5>
+            </div>
+        </div>
+    </div>
+</div>
     <div class="row g-6 mb-6">
-        <div class="col-xxl-6">
+        <div class="col-md-3">
           <div class="card bg-primary text-white">
             <div class="card-body">
                 <a href="">
@@ -63,19 +97,7 @@
             </div>
           </div>
         </div>
-        <div class="col-xxl-6">
-          <div class="card bg-secondary text-white">
-            <div class="card-body">
-                <a href="">
-                    <h5 class="card-title text-white">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24"><path fill="currentColor" fill-rule="evenodd" d="M16.594 2.218a.75.75 0 0 1 1.06 0l1.19 1.19l.002.001l2.958 2.959a.75.75 0 1 1-1.06 1.06l-.66-.66l-1.707 1.706l.707.707a.75.75 0 0 1 0 1.06l-8.276 8.278a2.25 2.25 0 0 1-2.814.298l-.034.036l-1.038 1.038a.75.75 0 0 1-1.06 0l-.335-.335l-2.225 2.225a.75.75 0 1 1-1.06-1.06l2.224-2.226l-.334-.333a.75.75 0 0 1 0-1.061l1.038-1.038l.036-.034a2.25 2.25 0 0 1 .298-2.814l8.277-8.277a.75.75 0 0 1 1.06 0l.708.707l1.706-1.706l-.661-.66a.75.75 0 0 1 0-1.061M18.315 5L16.61 6.706l.708.707l1.706-1.706zm-3.302 2.23l-.701-.7l-7.747 7.746a.75.75 0 0 0 0 1.06l2.121 2.122a.75.75 0 0 0 1.061 0l7.747-7.747l-.702-.701l-.006-.006l-1.768-1.768z" clip-rule="evenodd"/></svg>
-                      Booking Vaksin sekarang
-                   </h5>
-                </a>
-            </div>
-          </div>
-        </div>
-        <div class="col-xxl-6">
+        <div class="col-md-3">
           <div class="card bg-secondary text-white">
             <div class="card-body">
                 <a href="">
@@ -87,7 +109,8 @@
             </div>
           </div>
         </div>
-        <div class="col-xxl-6">
+        
+        <div class="col-md-3">
             <div class="card bg-primary text-white">
               <div class="card-body">
                 <a href="">
@@ -96,6 +119,18 @@
                         Lihat Artikel Terbaru
                     </h5>
                 </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card bg-secondary text-white">
+              <div class="card-body">
+                  <a href="">
+                      <h5 class="card-title text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24"><path fill="currentColor" fill-rule="evenodd" d="M16.594 2.218a.75.75 0 0 1 1.06 0l1.19 1.19l.002.001l2.958 2.959a.75.75 0 1 1-1.06 1.06l-.66-.66l-1.707 1.706l.707.707a.75.75 0 0 1 0 1.06l-8.276 8.278a2.25 2.25 0 0 1-2.814.298l-.034.036l-1.038 1.038a.75.75 0 0 1-1.06 0l-.335-.335l-2.225 2.225a.75.75 0 1 1-1.06-1.06l2.224-2.226l-.334-.333a.75.75 0 0 1 0-1.061l1.038-1.038l.036-.034a2.25 2.25 0 0 1 .298-2.814l8.277-8.277a.75.75 0 0 1 1.06 0l.708.707l1.706-1.706l-.661-.66a.75.75 0 0 1 0-1.061M18.315 5L16.61 6.706l.708.707l1.706-1.706zm-3.302 2.23l-.701-.7l-7.747 7.746a.75.75 0 0 0 0 1.06l2.121 2.122a.75.75 0 0 0 1.061 0l7.747-7.747l-.702-.701l-.006-.006l-1.768-1.768z" clip-rule="evenodd"/></svg>
+                        Booking Vaksin sekarang
+                     </h5>
+                  </a>
               </div>
             </div>
           </div>

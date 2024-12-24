@@ -47,7 +47,7 @@ id="layout-navbar">
   <ul class="navbar-nav flex-row align-items-center ms-auto">
     <!-- Place this tag where you want the button to render. -->
     <li class="nav-item lh-1 me-4 d-flex align-items-center">
-      <a href="">
+      <a href="/consultation">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M5 18v3.766l1.515-.909L11.277 18H16c1.103 0 2-.897 2-2V8c0-1.103-.897-2-2-2H4c-1.103 0-2 .897-2 2v8c0 1.103.897 2 2 2zM4 8h12v8h-5.277L7 18.234V16H4z"/><path fill="currentColor" d="M20 2H8c-1.103 0-2 .897-2 2h12c1.103 0 2 .897 2 2v8c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2"/></svg>
       </a>
     </li>
@@ -72,8 +72,8 @@ id="layout-navbar">
                 </div>
               </div>
               <div class="flex-grow-1">
-                <h6 class="mb-0">John Doe</h6>
-                <small class="text-muted">Admin</small>
+                <h6 class="mb-0">{{Auth::user()->name}}</h6>
+                <small class="text-muted">{{Auth::user()->role}}</small>
               </div>
             </div>
           </a>
@@ -82,7 +82,7 @@ id="layout-navbar">
           <div class="dropdown-divider my-1"></div>
         </li>
         <li>
-          <a class="dropdown-item" href="#">
+          <a class="dropdown-item" href="/profile">
             <i class="bx bx-user bx-md me-3"></i><span>My Profile</span>
           </a>
         </li>
@@ -92,16 +92,11 @@ id="layout-navbar">
         <li>
           <form method="POST" action="{{ route('logout') }}">
             @csrf
-
-            <x-dropdown-link :href="route('logout')"
-                    onclick="event.preventDefault();
-                                this.closest('form').submit();">
-                {{ __('Log Out') }}
-            </x-dropdown-link>
-          </form>
-          {{-- <a class="dropdown-item" href="javascript:void(0);">
+          <button type="submit" class="dropdown-item" href="javascript:void(0);">
             <i class="bx bx-power-off bx-md me-3"></i><span>Log Out</span>
-          </a> --}}
+          </button>
+          </form>
+
         </li>
       </ul>
     </li>
