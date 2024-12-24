@@ -47,7 +47,7 @@ class UserController extends Controller
         ]);
 
         Consultation::create([
-            'user_id' => auth()->id(),
+            'user_id' => auth()->$request->id,
             'doctor_id' => $request->doctor_id,
             'child_id' => $request->child_id,
             'pesan' => $request->pesan,

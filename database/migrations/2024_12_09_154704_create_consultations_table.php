@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Pengguna
             $table->foreignId('child_id')->constrained('children')->onDelete('cascade'); // Anak
-            $table->foreignId('doctor_id')->constrained('users')->onDelete('cascade'); // Dokter
+            $table->foreignId('doctor_id')->constrained('doctors')->onDelete('cascade'); // Dokter
             $table->text('pesan'); // Keluhan pengguna
             $table->enum('status', ['pending', 'responded'])->default('pending'); // Status konsultasi
             $table->timestamps();

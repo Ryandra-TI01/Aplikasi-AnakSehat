@@ -5,6 +5,7 @@ use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use PhpParser\Comment\Doc;
 
 Route::get('/', function () {
     return view('welcome');
@@ -21,35 +22,51 @@ Route::middleware('auth')->group(function () {
 });
 
 // route untuk admin
-route::get('dashboard-admin',[AdminController::class,'index'])->name("dashboard.admin");
-route::get('admin/pengguna',[AdminController::class,'indexPengguna']);
-route::get('admin/doctor',[AdminController::class,'indexDoctor']);
-route::get('admin/pengguna/{id}',[AdminController::class,'showPengguna']);
-route::get('admin/doctor/{id}',[AdminController::class,'showDoctor']);
-route::get('admin/profile',[AdminController::class,'adminProfile']);
-
+Route::prefix('admin')->group(function() {
+    route::get('dashboard-admin',[AdminController::class,'index'])->name("dashboard-admin"); // nama blm diganti
+    route::get('pengguna',[AdminController::class,'indexPengguna'])->name('indexPengguna');
+    route::get('pengguna/{id}',[AdminController::class,'showPengguna'])->name('showPengguna');
+    route::get('pengguna/{id}/edit', [AdminController::class, 'editPengguna'])->name('editPengguna');
+    route::put('pengguna/{id}', [AdminController::class, 'updatePengguna'])->name('updatePengguna');
+    Route::delete('pengguna/{id}/delete', [AdminController::class, 'destroyPengguna'])->name('deletePengguna');
+    route::get('doctor',[AdminController::class,'indexDoctor'])->name('indexDokter');
+    route::get('doctor/{id}',[AdminController::class,'showDoctor'])->name('showDokter');
+    route::get('doctor/{id}/edit', [AdminController::class, 'editDoctor'])->name('editDokter');
+    route::put('doctor/{id}', [AdminController::class, 'updateDoctor'])->name('updateDokter');
+    route::delete('doctor/{id}/delete', [AdminController::class, 'destroyDoctor'])->name('deleteDokter');
+    route::get('profile',[AdminController::class, 'adminProfile'])->name('profile-admin'); // belum
+    route::get('profile',[AdminController::class, 'editAdmin'])->name('editAdmin'); // belum
+    route::get('profile',[AdminController::class, 'updateAdmin'])->name('updateAdmin'); // belum
+});
 
 // route untuk doctor
-route::get('dashboard-doctor',[DoctorController ::class,'index']);
-route::get('doctor/article',[DoctorController ::class,'indexArticle']);
-route::get('doctor/article/{id}',[DoctorController ::class,'showArticle']);
-route::get('doctor/consultation',[DoctorController ::class,'indexConsultation']);
-route::get('doctor/consultation/{id}',[DoctorController ::class,'showConsultation']);
-route::get('doctor/profile',[DoctorController ::class,'profileDoctor']);
-route::post('doctor/response/{id}',[DoctorController ::class,'sendResponse']);
-
+Route::prefix('doctor')->group(function() {
+    route::get('dashboard-doctor',[DoctorController ::class,'index'])->name('dashboard-dokter'); // nama blm diganti
+    route::get('article',[DoctorController ::class,'indexArticle']); // belum
+    route::get('article/create', [DoctorController::class, 'createArticle'])->name('createDoctor'); // belum
+    route::post('article/create', [DoctorController::class, 'storeArticle'])->name('storeDoctor'); // belum
+    route::get('article/{id}',[DoctorController ::class,'showArticle'])->name('showArtikel'); // belum
+    route::get('article/{id}/edit',[DoctorController ::class,'editArticle'])->name('editArtikel'); // belum
+    route::put('article/{id}',[DoctorController ::class,'updateArticle'])->name('updateArtikel'); // belum
+    route::delete('article/{id}/delete',[DoctorController ::class,'destroyArticle'])->name('deleteArtikel'); // belum
+    route::get('consultation',[DoctorController ::class,'indexConsultation']); // belum
+    route::get('consultation/{id}',[DoctorController ::class,'showConsultation']); // belum
+    route::post('response/{id}',[DoctorController ::class,'sendResponse']); // belum
+    route::get('profile',[DoctorController ::class,'profileDoctor']); // belum
+});
 
 // role untuk user
-route::get('home',[UserController ::class,'home']);
-route::get('profile-anak',[UserController ::class,'profileAnak']);
-route::get('doctor-anak',[UserController ::class,'doctor']);
-route::get('doctor-detail/{id}',[UserController ::class,'detailDoctor']);
-route::get('article',[UserController ::class,'article']);
-route::get('profile-pengguna',[UserController ::class,'profilePengguna']);
-route::get('article/{id}',[UserController ::class,'detailArticle']);
-route::get('consultation',[UserController ::class,'seeResponse']);
-route::post('consultation/send',[UserController ::class,'sendConsultation']);
-route::get('child/{id}',[UserController ::class,'detailChild']);
-route::post('child/{id}',[UserController ::class,'simpanPerkembangan']);
+route::get('home',[UserController ::class,'home']); // belum
+route::get('profile-anak',[UserController ::class,'profileAnak']); // belum
+route::get('profile-pengguna',[UserController ::class,'profilePengguna']); // belum
+route::get('doctor-anak',[UserController ::class,'doctor']); // belum
+route::get('doctor-detail/{id}',[UserController ::class,'detailDoctor']); // belum
+route::get('article',[UserController ::class,'article']); // belum
+route::get('article/{id}',[UserController ::class,'detailArticle'])
+    ->name('detailArtikel'); // belum
+route::get('consultation',[UserController ::class,'seeResponse']); // belum
+route::post('consultation/send',[UserController ::class,'sendConsultation']); // belum
+route::get('child/{id}',[UserController ::class,'detailChild']); // belum
+route::post('child/{id}',[UserController ::class,'simpanPerkembangan']); // belum
 
 require __DIR__.'/auth.php';

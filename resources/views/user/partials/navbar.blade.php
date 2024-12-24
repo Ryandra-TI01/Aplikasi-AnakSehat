@@ -90,9 +90,18 @@ id="layout-navbar">
           <div class="dropdown-divider my-1"></div>
         </li>
         <li>
-          <a class="dropdown-item" href="javascript:void(0);">
+          <form method="POST" action="{{ route('logout') }}">
+            @csrf
+
+            <x-dropdown-link :href="route('logout')"
+                    onclick="event.preventDefault();
+                                this.closest('form').submit();">
+                {{ __('Log Out') }}
+            </x-dropdown-link>
+          </form>
+          {{-- <a class="dropdown-item" href="javascript:void(0);">
             <i class="bx bx-power-off bx-md me-3"></i><span>Log Out</span>
-          </a>
+          </a> --}}
         </li>
       </ul>
     </li>

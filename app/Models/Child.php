@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Children extends Model
+class Child extends Model
 {
     use HasFactory;
     protected $table = "children";
@@ -15,7 +15,7 @@ class Children extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function childHealt() {
+    public function childHealthData() {
         return $this->hasMany(ChildHealthData::class);
     }
 }
