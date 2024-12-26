@@ -201,7 +201,7 @@ class AdminController extends Controller
 
     public function adminProfile(){
         // Menggambil data Admin
-        $admin = Auth::guard('admin')->user();
+        $admin = Auth::user();
 
         return view("admin.adminProfile", [
             "admin" => $admin
@@ -210,7 +210,7 @@ class AdminController extends Controller
 
     public function editAdmin() {
         // Menggambil data Admin
-        $admin = Auth::guard('admin')->user();
+        $admin = Auth::user();
 
         return view("admin.adminProfile", [
             "admin" => $admin

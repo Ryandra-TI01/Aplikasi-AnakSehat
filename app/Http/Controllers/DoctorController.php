@@ -23,8 +23,9 @@ class DoctorController extends Controller
     }
 
     public function indexArticle() {
+        $dokter = Auth::user();
         // Mengambil data semua artikel
-        $artikel = Article::all();
+        $artikel = Article::where('doctor_id', $dokter->id)->get();
 
         foreach ($artikel as $article) {
             $article->format_tanggal = $article->date ? Carbon::parse($article->date)
@@ -37,26 +38,90 @@ class DoctorController extends Controller
     }
 
     public function createArticle() {
-        return view("doctor.createArticle");
+        $penulis = Auth::user();
+        return view("doctor.showArticle", [
+            "penulis" => $penulis
+        ]);
     }
 
     public function storeArticle(Request $request) {
+        $dokter = Auth::user();
+
+        $validasi = $request->validate([
+            "title" => "required",
+            "content" => "required",
+            "date" => "required|date",
+            "image" => "image|file|max:1024|nullable|mimes:jpg,png,jpeg"
+        ]);
+
+        if ($request->hasFile("image")) {
+            $validasi['image'] = $request->file('image')->store('gambar-artikel');
+        }
+        
+        Article::create([
+            "doctor_id" => $dokter->id,
+            "title" => $request->title,
+            "content" => $request->content,
+            "date" => $request->date,
+            "image" => $validasi["image"]
+        ]);
+
         return redirect("doctor/article")->with('message', 'Article created successfully');
     }
 
     public function showArticle($id) {
-        return view("doctor.showArticle");
+        $penulis = Auth::user();
+
+        $artikel = Article::find($id);
+
+        return view("doctor.showArticle", [
+            "penulis" => $penulis,
+            "artikel" => $artikel
+        ]);
     }
 
     public function editArticle($id)  {
-        return view("doctor.showArticle");
+        $penulis = Auth::user();
+
+        $artikel = Article::find($id);
+
+        return view("doctor.showArticle", [
+            "penulis" => $penulis,
+            "artikel" => $artikel
+        ]);
     }
 
     public function updateArticle(Request $request, $id) {
+        $penulis = Auth::user();
+        $artikel = Article::find($id);
+
+        $validasi = $request->validate([
+            "title" => "required",
+            "content" => "required",
+            "date" => "required|date",
+            "image" => "image|file|max:1024|nullable|mimes:jpg,png,jpeg"
+        ]);
+
+        if ($request->hasFile("image")) {
+            $validasi['image'] = $request->file('image')->store('gambar-artikel');
+        }
+
+        $artikel->update([
+            "doctor_id" => $penulis->id,
+            "title" => $request->title,
+            "content" => $request->content,
+            "date" => $request->date,
+            "image" => $validasi["image"]
+        ]);
+        
         return redirect("doctor/article")->with('message', 'Article update successfully');
     }
 
     public function destroyArticle($id) {
+        $article = Article::find($id);
+
+        $article->delete();
+
         return redirect("doctor/article")->with('message', 'Article delete successfully');
     }
 
@@ -90,9 +155,5 @@ class DoctorController extends Controller
         $consultation->update(['status' => 'responded']);
 
         return back()->with('success', 'Respon berhasil dikirim.');
-    }
-
-    public function profileDoctor() {
-        return view("doctor.profileDoctor");
     }
 }

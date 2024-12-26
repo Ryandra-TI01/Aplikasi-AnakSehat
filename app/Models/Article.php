@@ -9,7 +9,7 @@ class Article extends Model
 {
     use HasFactory;
     protected $table = "articles";
-    protected $fillable = ["title", "content", "date", "doctor_id"];
+    protected $fillable = ["title", "content", "date", "doctor_id", "image"];
 
     public function doctor() {
         return $this->belongsTo(Doctor::class);

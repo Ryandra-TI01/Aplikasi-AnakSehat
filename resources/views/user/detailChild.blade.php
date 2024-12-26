@@ -76,7 +76,7 @@
                 </tr>
               </thead>
               <tbody>
-                @foreach ($childHealtData as $record)
+                @foreach ($childHealthData as $record)
                 <tr>
                     <td>{{ $record->bulan }} Bulan</td>
                     <td>{{ $record->tinggi }} cm</td>

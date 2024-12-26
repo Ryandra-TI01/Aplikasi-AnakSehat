@@ -7,11 +7,12 @@
         <div class="col-xxl">
             <div class="card mb-6">
                 <div class="card-header d-flex align-items-center justify-content-between">
-                    @if (Route::currentRouteName() == 'showDokter') 
-                    <h5 class="mb-0">Detail Profile Dokter</h5>
-                    @elseif(Route::currentRouteName() == 'editDokter')
-                    <h5 class="mb-0">Edit Profile Dokter</h5>
-                    @endif
+                    <h5 class="mb-0">
+                        @switch(Route::currentRouteName())
+                            @case('showDokter') Detail Dokter @break
+                            @case('editDokter') Edit Dokter @break
+                        @endswitch
+                    </h5>
                 </div>
                 <div class="card-body">
                 <form action="{{ route('updateDokter', $dokter->id ) }}" method="POST">
@@ -33,10 +34,7 @@
                             placeholder="Doctor Name"
                             aria-label="Doctor Name"
                             aria-describedby="basic-icon-default-fullname2"
-                            @if (Route::currentRouteName() == 'showDokter')
-                            disabled
-                            @endif
-                            />
+                            {{ Route::currentRouteName() === 'showDokter' ? 'disabled' : '' }}/>
                         </div>
                     </div>
                     </div>
@@ -54,10 +52,7 @@
                                 placeholder="email"
                                 aria-label="email"
                                 aria-describedby="basic-icon-default-email2"
-                                @if (Route::currentRouteName() == 'showDokter')
-                                disabled
-                                @endif
-                                />
+                                {{ Route::currentRouteName() === 'showDokter' ? 'disabled' : '' }}/>
                             <span id="basic-icon-default-email2" class="input-group-text">@example.com</span>
                             </div>
                             <div class="form-text">You can use letters, numbers & periods</div>
@@ -79,10 +74,7 @@
                                 placeholder="Phone Number"
                                 aria-label="Phone Number"
                                 aria-describedby="basic-icon-default-phone2"
-                                @if (Route::currentRouteName() == 'showDokter')
-                                disabled
-                                @endif
-                                />
+                                {{ Route::currentRouteName() === 'showDokter' ? 'disabled' : '' }}/>
                             </div>
                         </div>
                     </div>
@@ -90,11 +82,7 @@
                     <div class="row mb-6">
                         <label class="col-sm-2 col-form-label" for="basic-icon-default-phone">Status</label>
                         <div class="col-sm-10">
-                            <select class="form-select" id="status" name="status" aria-label="Default select example"
-                            @if (Route::currentRouteName() == 'showDokter')
-                            disabled
-                            @endif
-                            >
+                            <select class="form-select" id="status" name="status" aria-label="Default select example" {{ Route::currentRouteName() === 'showDokter' ? 'disabled' : '' }}>
                                 <option value="">Pilih Status</option>
                                 <option value="Sudah Terverifikasi" {{ $dokter->status == 'Sudah Terverifikasi' ? 'selected' : '' }}>Sudah Terverifikasi</option>
                                 <option value="Belum Terverifikasi" {{ $dokter->status == 'Belum Terverifikasi' ? 'selected' : '' }}>Belum Terverifikasi</option>

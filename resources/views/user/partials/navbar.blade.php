@@ -15,8 +15,7 @@ id="layout-navbar">
       <span class="fw-bold ms-2">AnakSehat</span>
     </div>
   </div>
-  <!-- /logo -->
-
+  <!-- /logo -->  
   <ul class="d-flex align-items-center m-auto list-unstyled justify-content-around">
     <li style="width: 150px">
       <a href="/home" class="d-flex justify-content-center align-items-center s">
@@ -82,7 +81,11 @@ id="layout-navbar">
           <div class="dropdown-divider my-1"></div>
         </li>
         <li>
+          @if (Auth::user('doctor'))
+          <a class="dropdown-item" href="profile">
+          @else
           <a class="dropdown-item" href="/profile">
+          @endif
             <i class="bx bx-user bx-md me-3"></i><span>My Profile</span>
           </a>
         </li>

@@ -7,11 +7,12 @@
         <div class="col-xxl">
             <div class="card mb-6">
                 <div class="card-header d-flex align-items-center justify-content-between">
-                    @if (Route::currentRouteName() == 'showPengguna')
-                    <h5 class="mb-0">Detail Pengguna</h5>
-                    @elseif(Route::currentRouteName() == 'editPengguna')
-                    <h5 class="mb-0">Edit Pengguna</h5>
-                    @endif
+                    <h5 class="mb-0">
+                        @switch(Route::currentRouteName())
+                            @case('showPengguna') Detail Pengguna @break
+                            @case('editPengguna') Edit Pengguna @break
+                        @endswitch
+                    </h5>
                 </div>
                 <div class="card-body">
                 <form action="{{ route('updatePengguna', $pengguna->id )}}" method="POST">
@@ -33,10 +34,7 @@
                             placeholder="User Name"
                             aria-label="User Name"
                             aria-describedby="basic-icon-default-fullname2" 
-                            @if (Route::currentRouteName() == 'showPengguna')
-                            disabled
-                            @endif
-                            />
+                            {{ Route::currentRouteName() === 'showPengguna' ? 'disabled' : '' }}/>
                         </div>
                     </div>
                     </div>
@@ -54,10 +52,7 @@
                                 placeholder="Your Email"
                                 aria-label="Your Email"
                                 aria-describedby="basic-icon-default-email2"
-                                @if (Route::currentRouteName() == 'showPengguna')
-                                disabled
-                                @endif 
-                                />
+                                {{ Route::currentRouteName() === 'showPengguna' ? 'disabled' : '' }}/>
                             <span id="basic-icon-default-email2" class="input-group-text">@example.com</span>
                             </div>
                             <div class="form-text">You can use letters, numbers & periods</div>
@@ -79,10 +74,7 @@
                                 placeholder="Phone Number"
                                 aria-label="Phone Number"
                                 aria-describedby="basic-icon-default-phone2"
-                                @if (Route::currentRouteName() == 'showPengguna')
-                                disabled
-                                @endif
-                                />
+                                {{ Route::currentRouteName() === 'showPengguna' ? 'disabled' : '' }}/>
                             </div>
                         </div>
                     </div>
