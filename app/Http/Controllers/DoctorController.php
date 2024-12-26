@@ -61,9 +61,10 @@ class DoctorController extends Controller
     }
 
     public function indexConsultation(){
-    //     $konsultasi = Consultation::where('doctor_id', auth()->id())->with('user', 'child')->get();
-    // return view('dokter.konsultasi.index', compact('konsultasi'));
-    // sementara
+        // $user = Auth::user();
+        // $konsultasi = Consultation::where('doctor_id', $user->id)->with('user', 'child')->get();
+        // return view('doctor.showConsultation', compact('konsultasi'));
+         // sementara
         $consultations = Consultation::where('status', 'pending')->with('user', 'child')->get();
         return view("doctor.indexConsultation",compact('consultations'));
     }

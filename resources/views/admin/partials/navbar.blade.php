@@ -8,33 +8,7 @@ id="layout-navbar">
 </div>
 
 <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-  <!-- Search -->
-  {{-- <div class="navbar-nav align-items-center">
-    <div class="nav-item d-flex align-items-center">
-      <i class="bx bx-search bx-md"></i>
-      <input
-        type="text"
-        class="form-control border-0 shadow-none ps-1 ps-sm-2"
-        placeholder="Search..."
-        aria-label="Search..." />
-    </div>
-  </div> --}}
-  <!-- /Search -->
-
   <ul class="navbar-nav flex-row align-items-center ms-auto">
-    <!-- Place this tag where you want the button to render. -->
-    {{-- <li class="nav-item lh-1 me-4">
-      <a
-        class="github-button"
-        href="https://github.com/themeselection/sneat-html-admin-template-free"
-        data-icon="octicon-star"
-        data-size="large"
-        data-show-count="true"
-        aria-label="Star themeselection/sneat-html-admin-template-free on GitHub"
-        >Star</a
-      >
-    </li> --}}
-
     <!-- User -->
     <li class="nav-item navbar-dropdown dropdown-user dropdown">
       <a
@@ -56,7 +30,6 @@ id="layout-navbar">
               </div>
               <div class="flex-grow-1">
                 <h6 class="mb-0">{{Auth::user()->name}}</h6>
-                <small class="text-muted">{{Auth::user()->role}}</small>
               </div>
             </div>
           </a>
@@ -65,7 +38,7 @@ id="layout-navbar">
           <div class="dropdown-divider my-1"></div>
         </li>
         <li>
-          <a class="dropdown-item" href="/profile">
+          <a class="dropdown-item" href="{{route('admin.profile.edit')}}">
             <i class="bx bx-user bx-md me-3"></i><span>My Profile</span>
           </a>
         </li>
@@ -73,9 +46,12 @@ id="layout-navbar">
           <div class="dropdown-divider my-1"></div>
         </li>
         <li>
-          <a class="dropdown-item" href="javascript:void(0);">
+          <form method="POST" action="{{ route('admin.logout') }}">
+            @csrf
+          <button type="submit" class="dropdown-item" href="javascript:void(0);">
             <i class="bx bx-power-off bx-md me-3"></i><span>Log Out</span>
-          </a>
+          </button>
+          </form>
         </li>
       </ul>
     </li>

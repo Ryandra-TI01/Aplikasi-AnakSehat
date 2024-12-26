@@ -51,16 +51,6 @@ class UserController extends Controller
 
         return redirect()->back()->with('success', 'Anak berhasil ditambahkan!');
     }
-    public function profileAnak(){
-        $user = Auth::user();
-        $children = Child::where('user_id', $user->id)
-        ->with(['childHealtData' => function ($query) {
-            $query->latest('bulan')->limit(1); // Hanya ambil data perkembangan terbaru
-        }])
-        ->get();
-        // percobaan
-        return view("user.profileAnak",compact('children'));
-    }
     public function article(){
         $articles = Article::with('doctor')->latest()->get();
         return view("user.article",compact('articles'));
@@ -112,7 +102,16 @@ class UserController extends Controller
 
         return view('user.seeResponse', compact('consultation'));
     }
-    
+    public function profileAnak(){
+        $user = Auth::user();
+        $children = Child::where('user_id', $user->id)
+        ->with(['childHealtData' => function ($query) {
+            $query->latest('bulan')->limit(1); // Hanya ambil data perkembangan terbaru
+        }])
+        ->get();
+        // percobaan
+        return view("user.profileAnak",compact('children'));
+    }
     public function detailChild($child_id) {
         $child = Child::findOrFail($child_id);
         $childHealtData = $child->childHealtData()->orderBy('bulan', 'asc')->get();
