@@ -32,15 +32,12 @@ Route::middleware('auth:doctor')->group(function () {
     route::get('doctor/article/{id}',[DoctorController ::class,'showArticle']);
     route::get('doctor/consultation',[DoctorController ::class,'indexConsultation']);
     route::get('doctor/consultation/{id}',[DoctorController ::class,'showConsultation']);
-    route::get('doctor/profile',[DoctorController ::class,'profileDoctor']);
-    route::post('doctor/response/{id}',[DoctorController ::class,'sendResponse']);// route untuk doctor
+    route::post('doctor/response/{id}',[DoctorController ::class,'sendResponse'])->name('sendResponse');// route untuk doctor
 });
 
-
-
 // route untuk admin
-Route::prefix('admin')->group(function() {
-    route::get('dashboard-admin',[AdminController::class,'index'])->name("dashboard-admin"); // nama blm diganti
+Route::middleware('auth:admin')->prefix('admin')->group(function() {
+    route::get('dashboard-admin',[AdminController::class,'index'])->name("dashboard.admin");
     route::get('pengguna',[AdminController::class,'indexPengguna'])->name('indexPengguna');
     route::get('pengguna/{id}',[AdminController::class,'showPengguna'])->name('showPengguna');
     route::get('pengguna/{id}/edit', [AdminController::class, 'editPengguna'])->name('editPengguna');
@@ -51,11 +48,8 @@ Route::prefix('admin')->group(function() {
     route::get('doctor/{id}/edit', [AdminController::class, 'editDoctor'])->name('editDokter');
     route::put('doctor/{id}', [AdminController::class, 'updateDoctor'])->name('updateDokter');
     route::delete('doctor/{id}/delete', [AdminController::class, 'destroyDoctor'])->name('deleteDokter');
-    route::get('profile',[AdminController::class, 'adminProfile'])->name('profile-admin'); // belum
-    route::get('profile',[AdminController::class, 'editAdmin'])->name('editAdmin'); // belum
-    route::get('profile',[AdminController::class, 'updateAdmin'])->name('updateAdmin'); // belum
 });
 
+require __DIR__.'/admin-auth.php';
 require __DIR__.'/doctor-auth.php';
-
 require __DIR__.'/auth.php';

@@ -33,7 +33,7 @@
             @method('patch')
             <div class="row g-6">
                 @if (session('status') === 'profile-updated')
-                    <h1>{{ __('Saved.') }}</h1>
+                    <span class="alert alert-success">{{ __('Saved.') }}</span>
                 @endif
               <div class="col-md-6">
                 <label for="firstName" class="form-label">Nama Lengkap</label>

@@ -38,7 +38,7 @@ class AdminController extends Controller
 
     public function showPengguna($id){
         // mengambil data user beserta anak dan childhealth
-        $pengguna = User::with(["child.childHealthData"])->findOrFail($id);
+        $pengguna = User::with(["child.childHealtData"])->findOrFail($id);
 
         foreach ($pengguna->child as $anak) {
             // Hitung umur di controller
@@ -49,8 +49,8 @@ class AdminController extends Controller
                 ->format("d F Y") : "";
 
             // Status Gizi terakhir
-            $anak->status_terakhir = $anak->childHealthData->isNotEmpty() ? $anak->childHealthData->last()
-                ->status_gizi : null;
+            $anak->status_terakhir = $anak->childHealtData->isNotEmpty() ? $anak->childHealtData->last()
+            ->status_gizi : null;
         }
 
         return view("admin.showPengguna", [
@@ -60,7 +60,7 @@ class AdminController extends Controller
 
     public function editPengguna($id){
         // mengambil data user beserta anak dan childhealth
-        $pengguna = User::with(["child.childHealthData"])->findOrFail($id);
+        $pengguna = User::with(["child.childHealtData"])->findOrFail($id);
 
         foreach ($pengguna->child as $anak) {
             // Hitung umur di controller
@@ -71,7 +71,7 @@ class AdminController extends Controller
                 ->format("d F Y") : "";
 
             // Status Gizi terakhir
-            $anak->status_terakhir = $anak->childHealthData->isNotEmpty() ? $anak->childHealthData->last()
+            $anak->status_terakhir = $anak->childHealtData->isNotEmpty() ? $anak->childHealtData->last()
                 ->status_gizi : null;
         }
 
@@ -199,26 +199,24 @@ class AdminController extends Controller
         return redirect("admin/doctor")->with('message', 'Doctor delete successfully');
     }
 
-    public function adminProfile(){
-        // Menggambil data Admin
-        $admin = Auth::guard('admin')->user();
+    // public function adminProfile(){
+    //     // Menggambil data Admin
+    //     // $admin = Auth::guard('admin')->user();
 
-        return view("admin.adminProfile", [
-            "admin" => $admin
-        ]);
-    }
+    //     return view("admin.adminProfile", );
+    // }
 
-    public function editAdmin() {
-        // Menggambil data Admin
-        $admin = Auth::guard('admin')->user();
+    // public function editAdmin() {
+    //     // Menggambil data Admin
+    //     $admin = Auth::guard('admin')->user();
 
-        return view("admin.adminProfile", [
-            "admin" => $admin
-        ]);
-    }
+    //     return view("admin.adminProfile", [
+    //         "admin" => $admin
+    //     ]);
+    // }
 
-    public function updateAdmin(Request $request, $id) {
-        return redirect("admin/profile")->with('message', 'Admin update successfully');
-    }
+    // public function updateAdmin(Request $request, $id) {
+    //     return redirect("admin/profile")->with('message', 'Admin update successfully');
+    // }
 
 }
