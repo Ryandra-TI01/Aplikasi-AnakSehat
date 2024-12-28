@@ -92,16 +92,47 @@
                     <div class="row mb-6">
                         <label class="col-sm-2 col-form-label" for="basic-icon-default-phone">Upload Gambar</label>
                         <div class="col-sm-10">
-                            @if (!empty($artikel->image))
-                            <div class="d-flex justify-content-center align-items-center mb-3">
-                                <img src="{{ asset('storage/' . $artikel->image) }}" alt="Gambar Artikel" width="300" class="rounded">
+                            @if (Route::currentRouteName() !== 'showArtikel')
+                            <input type="file" id="image" name="image" class="form-control mb-3">
+                            @endif
+                            <div class="card position-relative text-bg-white mb-3" style="max-width: 18rem;">
+                                @if (!empty($artikel->image))
+                                <a href="#" class="position-absolute text-decoration-none text-muted" style="top: 3%; right: 3%;" {{ Route::currentRouteName() === 'showArtikel' ? 'hidden' : '' }}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                        <path fill="currentColor" d="M6.4 19L5 17.6l5.6-5.6L5 6.4L6.4 5l5.6 5.6L17.6 5L19 6.4L13.4 12l5.6 5.6l-1.4 1.4l-5.6-5.6z"/>
+                                    </svg>
+                                </a>
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <img src="{{ asset('storage/' . $artikel->image) }}" alt="Gambar Artikel" width="300" class="rounded img-fluid" data-bs-toggle="modal" data-bs-target="#imageModal">
+                                    </div>
+                                </div>
+                                @else
+                                <p class="text-center m-3">No image uploaded</p>
+                                @endif
                             </div>
-                                @endif
-                                @if (Route::currentRouteName() !== 'showArtikel')
-                                    <input type="file" id="image" name="image" class="form-control">
-                                @endif
                         </div>
                     </div>
+
+                    {{-- Modal --}}
+                    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="imageModalLabel">Image Article Preview</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body d-flex justify-content-center">
+                                    @if ($artikel->image)
+                                        <img src="{{ asset('storage/' . $artikel->image) }}" alt="Gambar Artikel" class="img-fluid">
+                                    @else
+                                        <p>No certificate uploaded</p>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <input type="hidden" name="doctor_id" id="doctor_id" value="{{ Auth::id() }}">
                     @if (Route::currentRouteName() == 'editArtikel')
                     <input type="hidden" name="id" id="id" value="{{ $artikel->id }}">
