@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\EnsureChildOwnership;
 use Illuminate\Support\Facades\Route;
 use PhpParser\Comment\Doc;
 
@@ -21,8 +22,8 @@ Route::middleware('auth:web')->group(function () {
     route::get('article/{id}',[UserController ::class,'detailArticle']);
     route::get('consultation',[UserController ::class,'seeResponse']);
     route::post('consultation/send',[UserController ::class,'sendConsultation']);
-    route::get('child/{id}',[UserController ::class,'detailChild']);
-    route::post('child/{id}',[UserController ::class,'simpanPerkembangan'])->name('simpanPerkembangan');
+    route::get('child/{id}',[UserController ::class,'detailChild'])->middleware(middleware: [EnsureChildOwnership::class]);
+    route::post('child/{id}',[UserController ::class,'simpanPerkembangan'])->middleware([EnsureChildOwnership::class]);
 });
 
 Route::middleware('auth:doctor')->group(function () {

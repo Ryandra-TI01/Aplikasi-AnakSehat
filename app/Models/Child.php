@@ -9,7 +9,7 @@ class Child extends Model
 {
     use HasFactory;
     protected $table = "children";
-    protected $fillable = ["nama", "tanggal_lahir", "jenis_kelamin", "user_id"];
+    protected $fillable = ["nama", "tanggal_lahir", "jenis_kelamin", "user_id",'umur'];
 
     public function user() {
         return $this->belongsTo(User::class);
