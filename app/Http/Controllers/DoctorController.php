@@ -56,6 +56,8 @@ class DoctorController extends Controller
 
         if ($request->hasFile("image")) {
             $validasi['image'] = $request->file('image')->store('gambar-artikel');
+        }else {
+            $validasi['image'] = null;
         }
         
         Article::create([
@@ -104,6 +106,8 @@ class DoctorController extends Controller
 
         if ($request->hasFile("image")) {
             $validasi['image'] = $request->file('image')->store('gambar-artikel');
+        }else {
+            $validasi['image'] = $artikel->image;
         }
 
         $artikel->update([
@@ -126,28 +130,48 @@ class DoctorController extends Controller
     }
 
     public function indexConsultation(){
-    //     $konsultasi = Consultation::where('doctor_id', auth()->id())->with('user', 'child')->get();
-    // return view('dokter.konsultasi.index', compact('konsultasi'));
-    // sementara
-        $consultations = Consultation::where('status', 'pending')->with('user', 'child')->get();
-        return view("doctor.indexConsultation",compact('consultations'));
+        $dokter = Auth::user();
+        $konsultasi = Consultation::where("doctor_id", $dokter->id)
+        ->with("user", "child")->get();
+        
+        return view("doctor.indexConsultation", [
+            "consultations" => $konsultasi
+        ]);
     }
 
-    public function showConsultation() {
-        return view("doctor.showConsultation");
+    public function showConsultation($id) {
+        $dokter = Auth::user();
+        $konsultasi = Consultation::where("doctor_id", $dokter->id)
+        ->with("user", "child.childHealthData")->findOrFail($id);
+
+        $anak = $konsultasi->child;
+        if ($anak->childHealthData->isNotEmpty()) {
+            $anak->status_terakhir = $anak->childHealthData()->latest('created_at')->first();
+        } else {
+            $anak->status_terakhir = null;
+        }
+
+        $jawaban = ConsultationResponse::where("consultation_id", $konsultasi->id)->first();
+        
+        return view("doctor.showConsultation", [
+            "konsultasi" => $konsultasi,
+            "anak" => $anak,
+            "jawaban" => $jawaban
+        ]);
     }
 
     public function sendResponse(Request $request, $consultation_id){
+        $dokter = Auth::user();
         $request->validate([
             'respon' => 'required|string|max:2000',
         ]);
 
         $consultation = Consultation::findOrFail($consultation_id);
-
+        
         // Simpan respon dokter
         ConsultationResponse::create([
             'consultation_id' => $consultation->id,
-            'doctor_id' => Auth::guard("doctor"), // User yang berperan sebagai dokter
+            'doctor_id' => $dokter->id, // User yang berperan sebagai dokter
             'respon' => $request->respon,
         ]);
 
@@ -155,5 +179,30 @@ class DoctorController extends Controller
         $consultation->update(['status' => 'responded']);
 
         return back()->with('success', 'Respon berhasil dikirim.');
+    }
+
+    public function updateResponse(Request $request, $id) {
+        $dokter = Auth::user();
+
+        $respon = ConsultationResponse::find($id);
+
+        $request->validate([
+            'respon' => 'required|string|max:2000',
+        ]);
+
+        $respon->update([
+            'doctor_id' => $dokter->id, // User yang berperan sebagai dokter
+            'respon' => $request->respon,
+        ]);
+        
+        return back()->with('success', 'Respon berhasil diubah.');
+    }
+
+    public function destroyResponse($id) {
+        $konsultasi = Consultation::find($id);
+
+        $konsultasi->delete();
+
+        return back()->with('success', 'Respon berhasil dihapus.');
     }
 }

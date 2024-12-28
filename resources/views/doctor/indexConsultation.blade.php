@@ -21,16 +21,29 @@
                 </tr>
             </thead>
             <tbody>
+            @foreach ($consultations as $k)    
             <tr>
-                <td class="text-center">1</td>
-                <td class="text-center">Ryandra Athaya Saleh</td>
-                <td class="text-center">Perkembangan Anak</td>
-                <td class="text-center">17 Januari 2021</td>
+                <td class="text-center">{{ $loop->iteration }}</td>
+                <td class="text-center">{{ $k->user->name }}</td>
+                <td class="text-center">{{ Str::limit($k->pesan, 20) }}</td>
+                <td class="text-center">{{ optional($k->created_at)->format("d F Y") }}</td>
                 <td class="text-center">
-                    <div class="d-flex align-items-center justify-content-center">
-                        Terjawab
-                        <svg class="ms-2" style="background-color: #6200EE;color:white;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="m9.55 18l-5.7-5.7l1.425-1.425L9.55 15.15l9.175-9.175L20.15 7.4z"/></svg>
-                    </div>
+                    @if ($k->status === 'responded')
+                        <div class="d-flex align-items-center justify-content-center">
+                            Terjawab
+                            <svg class="ms-2" style="background-color: #6200EE;color:white;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="m9.55 18l-5.7-5.7l1.425-1.425L9.55 15.15l9.175-9.175L20.15 7.4z"/></svg>
+                        </div>
+                    @else
+                        <div class="d-flex align-items-center justify-content-center">
+                            Belum Terjawab
+                            <svg class="ms-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="16" height="16" xml:space="preserve">
+                                <circle fill="#BDBDBD" cx="256" cy="256" r="246"/>
+                                <path fill="currentColor" d="M236.02 107h40v244h-40z"/>
+                                <g><path fill="#EDEFF1" d="M236.02 107h40v244h-40z"/>
+                                <circle fill="#EDEFF1" cx="256" cy="395" r="26"/></g>
+                            </svg>
+                        </div>
+                    @endif
                 </td>
                 <td>
                     <div class="dropdown">
@@ -41,35 +54,29 @@
                         <i class="bx bx-dots-vertical-rounded"></i>
                         </button>
                         <div class="dropdown-menu">
-                        <a class="dropdown-item" href="javascript:void(0);"
-                            ><i class="bx bx-edit-alt me-1"></i> Edit</a
-                        >
-                        <a class="dropdown-item" href="javascript:void(0);"
-                            ><i class="bx bx-trash me-1"></i> Delete</a
-                        >
+                            <a class="dropdown-item" href="{{ route("showKonsul", $k->id) }}"
+                                ><i class="bx bx-chat me-1"></i>Respond</a
+                            >
+                            <form action="{{ route("deleteRespon", $k->id) }}" method="POST">
+                                @csrf
+                                @method("DELETE")
+                                <button class="dropdown-item" type="submit" 
+                                    onclick="return confirm('Apakah anda yakin ingin menghapus data?')"
+                                >
+                                    <i class="bx bx-trash me-1"></i> Delete
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </td>
             </tr>
+            @endforeach
             </tbody>
         </table>
         </div>
     </div>
     </div>
     <!--/ Bordered Table -->
-
-    @foreach($consultations as $k)
-<div>
-        <h3>Pengguna: {{ $k->user->nama }} ({{ $k->child->nama }})</h3>
-        <p>Keluhan: {{ $k->pesan }}</p>
-        <form method="POST" action="/doctor/response/{{ $k->id }}">
-            @csrf
-            <textarea name="respon" rows="3" required></textarea>
-            <button type="submit">Kirim Respon</button>
-        </form>
-    </div>
-    @endforeach
-{{-- percobaan --}}
     
 </div>
 @endsection

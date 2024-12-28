@@ -117,11 +117,12 @@ class UserController extends Controller
 
         return view('user.seeResponse', compact('consultation'));
     }
-    
     public function detailChild($child_id) {
-        $child = Child::findOrFail($child_id);
+        $user = Auth::user();
+        $child = Child::where("user_id", $user->id)->findOrFail($child_id);
         $childHealthData = $child->childHealthData()->orderBy('bulan', 'asc')->get();
         $latestChildHealthData = $child->childHealthData()->orderBy('bulan', 'desc')->first();
+        
         return view('user.detailChild', compact( 'child','childHealthData', 'latestChildHealthData'));
     }
     public function calculateNutritionStatus($tinggi, $berat, $bulan)

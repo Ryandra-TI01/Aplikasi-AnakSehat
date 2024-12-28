@@ -62,6 +62,12 @@
                     <li class="nav-item"><a href="{{ route('doctor.login') }}" class="nav-link">Log In Doctor</a></li>
                     <li class="nav-item"><a href="{{ route('doctor.register') }}" class="nav-link">Register Doctor</a></li>
                 @endauth
+                @auth('admin')
+                    <li class="nav-item"><a href="{{ route('dashboard.admin') }}" class="nav-link">Dashboard Admin</a></li>
+                @else
+                    <li class="nav-item"><a href="{{ route('admin.login') }}" class="nav-link">Log In Admin</a></li>
+                    <li class="nav-item"><a href="{{ route('admin.register') }}" class="nav-link">Register Admin</a></li>
+                @endauth
               </ul>
             @endif
             </header>

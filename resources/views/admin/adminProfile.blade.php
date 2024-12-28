@@ -2,6 +2,9 @@
 
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
+    <form id="send-verification" method="post" action="{{ route('admin.verification.send') }}">
+        @csrf
+    </form>
     <div class="row">
         <!-- Basic with Icons -->
         <div class="col-xxl">
@@ -10,8 +13,12 @@
                 <h5 class="mb-0">Detail Profile Admin</h5>
                 </div>
                 <div class="card-body">
-                <form>
+                <form method="post" action="{{ route('admin.profile.update') }}" class="mt-6 space-y-6">
+                    @csrf
                     <div class="row mb-6">
+                        @if (session('status') === 'profile-updated')
+                        <span class="alert alert-success">{{ __('Saved.') }}</span>
+                        @endif
                     <label class="col-sm-2 col-form-label" for="basic-icon-default-fullname">Name</label>
                     <div class="col-sm-10">
                         <div class="input-group input-group-merge">
@@ -24,8 +31,11 @@
                             id="basic-icon-default-fullname"
                             placeholder="John Doe"
                             aria-label="John Doe"
-                            aria-describedby="basic-icon-default-fullname2" />
-                            {{ $admin->name }}
+                            aria-describedby="basic-icon-default-fullname2" 
+                            name="name"
+                            value="{{$user->name}}"
+                            />
+                            
                         </div>
                     </div>
                     </div>
@@ -40,7 +50,10 @@
                                 class="form-control"
                                 placeholder="john.doe"
                                 aria-label="john.doe"
-                                aria-describedby="basic-icon-default-email2" />
+                                aria-describedby="basic-icon-default-email2"
+                                name="email"
+                                value="{{$user->email}}"
+                                />
                             <span id="basic-icon-default-email2" class="input-group-text">@example.com</span>
                             </div>
                             <div class="form-text">You can use letters, numbers & periods</div>
@@ -59,7 +72,10 @@
                                 class="form-control phone-mask"
                                 placeholder="658 799 8941"
                                 aria-label="658 799 8941"
-                                aria-describedby="basic-icon-default-phone2" />
+                                aria-describedby="basic-icon-default-phone2"
+                                name="phone_number"
+                                value="{{$user->phone_number}}"
+                                />
                             </div>
                         </div>
                     </div>
@@ -75,7 +91,10 @@
                                 class="form-control phone-mask"
                                 placeholder="*********"
                                 aria-label="*********"
-                                aria-describedby="basic-icon-default-phone2" />
+                                aria-describedby="basic-icon-default-phone2"
+                                name="password"
+                                value="{{$user->password}}"
+                                />
                             </div>
                         </div>
                     </div>

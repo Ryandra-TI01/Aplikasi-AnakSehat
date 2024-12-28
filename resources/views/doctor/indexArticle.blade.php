@@ -41,19 +41,19 @@
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="{{ route("showArtikel",  $artkl->id) }}"
                         ><i class="bx bx-show me-1"></i> Show</a
-                    >
-                    <a class="dropdown-item" href="{{ route("editArtikel", $artkl->id) }}"
-                        ><i class="bx bx-edit-alt me-1"></i> Edit</a
-                    >
-                    <form action="{{ route("deleteArtikel", $artkl->id) }}" method="POST">
-                        @csrf
-                        @method("DELETE")
-                        <button class="dropdown-item" type="submit" 
-                            onclick="return confirm('Apakah anda yakin ingin menghapus data?')"
                         >
-                            <i class="bx bx-trash me-1"></i> Delete
-                        </button>
-                    </form>
+                        <a class="dropdown-item" href="{{ route("editArtikel", $artkl->id) }}"
+                            ><i class="bx bx-edit-alt me-1"></i> Edit</a
+                        >
+                        <form action="{{ route("deleteArtikel", $artkl->id) }}" method="POST">
+                            @csrf
+                            @method("DELETE")
+                            <button class="dropdown-item" type="submit" 
+                                onclick="return confirm('Apakah anda yakin ingin menghapus data?')"
+                            >
+                                <i class="bx bx-trash me-1"></i> Delete
+                            </button>
+                        </form>
                     </div>
                 </div>
                 </td>

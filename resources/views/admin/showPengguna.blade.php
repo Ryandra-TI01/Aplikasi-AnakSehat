@@ -82,7 +82,7 @@
                     <div class="row mb-6">
                         <label class="col-sm-2 col-form-label" for="basic-icon-default-message">Anak</label>
                         <div class="container col-sm-10">
-                            <div class="row justify-content-evenly">
+                            <div class="row gap-3">
                                 @forelse ($pengguna->child as $anak)
                                 <div class="card text-bg-light mb-3 bg-white col col-12 col-sm-6" style="max-width: 20rem;">
                                     <h3 class="card-header">{{ $anak->nama ?? '' }}</h3>

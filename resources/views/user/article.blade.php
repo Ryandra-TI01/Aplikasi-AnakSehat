@@ -28,8 +28,10 @@
               <div class="card">
                 <div class="d-flex">
                   <div class="overflow-hidden">
+                    @if($k->image)
                     <img class="rounded" style="object-fit: cover; height: 200px; widhth: 100px;" 
                     src="{{asset('storage/' . $k->image)}}" alt="Card image">
+                    @endif
                   </div>
                   <div>
                     <div class="card-body">

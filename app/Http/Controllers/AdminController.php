@@ -50,7 +50,7 @@ class AdminController extends Controller
 
             // Status Gizi terakhir
             $anak->status_terakhir = $anak->childHealthData->isNotEmpty() ? $anak->childHealthData->last()
-                ->status_gizi : null;
+            ->status_gizi : null;
         }
 
         return view("admin.showPengguna", [
@@ -118,20 +118,6 @@ class AdminController extends Controller
         // Menggambil semua data Dokter
         $indexDokter = Doctor::all();
 
-        // Menambahkan atribut warna dan ikon berdasarkan status
-        foreach ($indexDokter as $dokter) {
-            if ($dokter->status === 'Sudah Terverifikasi') {
-                $dokter->bgColor = '#6200EE'; // Biru untuk verified
-                $dokter->icon = 'check'; // Ikon centang
-            } elseif ($dokter->status === 'rejected') {
-                $dokter->bgColor = '#E53935'; // Merah untuk rejected
-                $dokter->icon = 'close'; // Ikon X
-            } else {
-                $dokter->bgColor = '#BDBDBD'; // Abu-abu untuk status lainnya
-                $dokter->icon = 'exclamation'; // Ikon tanda tanya
-            }
-        }
-
         return view("admin.indexDoctor", [
             "iDokter" => $indexDokter
         ]);
@@ -197,28 +183,6 @@ class AdminController extends Controller
         $doctor->delete();
 
         return redirect("admin/doctor")->with('message', 'Doctor delete successfully');
-    }
-
-    public function adminProfile(){
-        // Menggambil data Admin
-        $admin = Auth::user();
-
-        return view("admin.adminProfile", [
-            "admin" => $admin
-        ]);
-    }
-
-    public function editAdmin() {
-        // Menggambil data Admin
-        $admin = Auth::user();
-
-        return view("admin.adminProfile", [
-            "admin" => $admin
-        ]);
-    }
-
-    public function updateAdmin(Request $request, $id) {
-        return redirect("admin/profile")->with('message', 'Admin update successfully');
     }
 
 }

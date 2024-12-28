@@ -97,12 +97,30 @@
                                 @if(!empty($dokter->certificate))
                                     <div class="card text-bg-white mb-3" style="max-width: 18rem;">
                                         <div class="card-body">
-                                            <img src="{{ asset('storage/' . $dokter->certificate) }}" width="100%" alt="Certificate">
+                                            <img src="{{ asset('storage/' . $dokter->certificate) }}" width="100%" alt="Certificate"  data-bs-toggle="modal" data-bs-target="#imageModal">
                                         </div>
                                     </div>
                                 @else
                                     <p class="text-muted">No certificate available</p>
                                 @endif
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modal -->
+                    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="imageModalLabel">Certificate Preview</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body d-flex justify-content-center">
+                                    @if ($dokter->certificate)
+                                        <img src="{{ asset('storage/' . $dokter->certificate) }}" alt="Certificate" class="img-fluid">
+                                    @else
+                                        <p>No certificate uploaded</p>
+                                    @endif
+                                </div>
                             </div>
                         </div>
                     </div>

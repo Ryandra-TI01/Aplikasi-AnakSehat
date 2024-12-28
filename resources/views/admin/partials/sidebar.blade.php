@@ -1,6 +1,6 @@
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
     <div class="app-brand demo">
-      <a href="/" class="app-brand-link">
+      <a href="{{route('dashboard.admin')}}" class="app-brand-link">
         <span class="app-brand-logo demo">
           <img style="width: 50px" src="{{asset('admin/assets/img/logo-rpl.jpeg')}}" alt="logo">
         </span>
@@ -17,7 +17,7 @@
     <ul class="menu-inner py-1">
       <li class="menu-item {{ Request::is('admin/dashboard-admin') ? 'open active' : '' }}">
         <a
-          href="{{ route('dashboard-admin') }}"
+          href="{{ route('dashboard.admin') }}"
           class="menu-link">
           <i class="menu-icon tf-icons bx bx-home-smile"></i>
           <div class="text-truncate" data-i18n="Email">Dashboard</div>

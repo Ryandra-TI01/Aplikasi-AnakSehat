@@ -9,7 +9,7 @@
             <div class="d-flex align-items-start row">
                 <div class="col-sm-7">
                 <div class="card-body">
-                    <h5 class="card-title text-primary mb-3">Halo Ryandra Athaya Saleh </h5>
+                    <h5 class="card-title text-primary mb-3">Halo {{Auth::user()->name}}</h5>
                     <p class="mb-6">
                     Selamat datang di dashboard admin.
                     </p>

@@ -85,9 +85,7 @@
                         <div class="col-sm-10">
                             <div class="input-group input-group-merge">
                                 <textarea class="form-control" id="content" name="content" rows="3"
-                                    {{ Route::currentRouteName() === 'showArtikel' ? 'disabled' : '' }}>
-                                    {{ $artikel->content ?? '' }}
-                                </textarea>
+                                    {{ Route::currentRouteName() === 'showArtikel' ? 'disabled' : '' }}>{{ $artikel->content ?? '' }}</textarea>
                             </div>
                         </div>
                     </div>
