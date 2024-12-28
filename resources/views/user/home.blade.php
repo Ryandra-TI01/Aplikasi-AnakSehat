@@ -46,8 +46,8 @@
                     <p>Umur : {{$k->umur}} bulan </p>
                     <p>Gender : {{$k->jenis_kelamin}}</p>
                     <p>Status Gizi: 
-                        @if ($k->childHealtData->isNotEmpty())
-                            {{ $k->childHealtData->first()->status_gizi }}
+                        @if ($k->childHealthData->isNotEmpty())
+                            {{ $k->childHealthData->first()->status_gizi }}
                         @else
                             Belum ada data
                         @endif
@@ -190,7 +190,10 @@
                 <div class="card">
                   <div class="d-flex">
                     <div class="overflow-hidden">
-                      <img class="" style="object-fit: cover; height: 200px; widhth: 100px;" src="{{$k->image}}" alt="Card image">
+                        @if ($k->image)
+                        <img class="rounded" style="object-fit: cover; height: 200px; widhth: 100px;" 
+                        src="{{asset('storage/' . $k->image)}}" alt="Card image">
+                        @endif
                     </div>
                     <div>
                       <div class="card-body">

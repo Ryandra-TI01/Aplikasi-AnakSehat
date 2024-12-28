@@ -51,7 +51,7 @@
             @if (Route::has('login'))
               <ul class="nav nav-pills">
                 @auth('web')
-                    <li class="nav-item"><a href="{{ url('/dashboard') }}" class="nav-link" >Dashboard</a></li>
+                    <li class="nav-item"><a href="{{ url('/home') }}" class="nav-link" >Dashboard</a></li>
                 @else
                     <li class="nav-item"><a href="{{ route('login') }}" class="nav-link">Log In</a></li>
                     <li class="nav-item"><a href="{{ route('register') }}" class="nav-link">Register</a></li>

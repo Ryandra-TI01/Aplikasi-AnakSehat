@@ -15,7 +15,7 @@ class Child extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function childHealtData() {
+    public function childHealthData() {
 
         return $this->hasMany(ChildHealthData::class);
     }

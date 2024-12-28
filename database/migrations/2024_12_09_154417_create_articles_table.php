@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('content');
             $table->date('date');
             $table->foreignId('doctor_id')->constrained('doctors')->onDelete('cascade');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->timestamps();
         });        
     }

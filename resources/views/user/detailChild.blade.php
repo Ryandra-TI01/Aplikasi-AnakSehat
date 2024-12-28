@@ -35,7 +35,7 @@
         <div class="col-6">
             <div class="card">
                 <div class="card-body">
-                    <form method="POST" action="/child/{{ $child->id }}">
+                    <form method="POST" action="{{ route('simpanPerkembangan', $child->id) }}">
                         @csrf
                         <div class="mb-6">
                             <label for="bulan" class="form-label">Umur (bulan) :</label>
@@ -76,7 +76,7 @@
                 </tr>
               </thead>
               <tbody>
-                @foreach ($childHealtData as $record)
+                @foreach ($childHealthData as $record)
                 <tr>
                     <td>{{ $record->bulan }} Bulan</td>
                     <td>{{ $record->tinggi }} cm</td>

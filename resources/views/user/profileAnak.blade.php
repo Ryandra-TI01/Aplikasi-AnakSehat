@@ -22,8 +22,8 @@
                 <p>Umur : {{$k->umur}} bulan </p>
                 <p>Gender : {{$k->jenis_kelamin}}</p>
                 <p>Status Gizi: 
-                    @if ($k->childHealtData->isNotEmpty())
-                        {{ $k->childHealtData->first()->status_gizi }}
+                    @if ($k->childHealthData->isNotEmpty())
+                        {{ $k->childHealthData->first()->status_gizi }}
                     @else
                         Belum ada data
                     @endif
