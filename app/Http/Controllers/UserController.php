@@ -145,8 +145,6 @@ class UserController extends Controller
             'tinggi' => 'required|numeric|min:30',
             'berat' => 'required|numeric|min:2',
         ]);
-
-        
         // Hitung status gizi
         $status_gizi = $this->calculateNutritionStatus($request->tinggi, $request->berat, $request->bulan);
         
@@ -154,7 +152,6 @@ class UserController extends Controller
         $child->update([
             'umur'=>$request->bulan
         ]);
-
         // Simpan data perkembangan
         ChildHealthData::create([
             'child_id' => $child_id,
