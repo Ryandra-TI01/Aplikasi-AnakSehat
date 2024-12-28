@@ -91,18 +91,27 @@
                         </div>
                     </div>
                     <div class="row mb-6">
-                        <label class="col-sm-2 col-form-label" for="basic-icon-default-phone">Certficate</label>
+                        <label class="col-sm-2 col-form-label" for="image">Certificate</label>
                         <div class="col-sm-10">
-                            <div class="col-sm-10">
-                                @if(!empty($dokter->certificate))
-                                    <div class="card text-bg-white mb-3" style="max-width: 18rem;">
-                                        <div class="card-body">
-                                            <img src="{{ asset('storage/' . $dokter->certificate) }}" width="100%" alt="Certificate"  data-bs-toggle="modal" data-bs-target="#imageModal">
-                                        </div>
-                                    </div>
-                                @else
-                                    <p class="text-muted">No certificate available</p>
-                                @endif
+                            <div class="card position-relative text-bg-white mb-3" style="max-width: 18rem;">
+                                <!-- Button untuk menghapus atau menutup -->
+                                <a href="#" class="position-absolute text-decoration-none text-muted" style="top: 3%; right: 3%;" {{ Route::currentRouteName() === 'showDokter' ? 'hidden' : '' }}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" >
+                                        <path fill="currentColor" d="M6.4 19L5 17.6l5.6-5.6L5 6.4L6.4 5l5.6 5.6L17.6 5L19 6.4L13.4 12l5.6 5.6l-1.4 1.4l-5.6-5.6z"/>
+                                    </svg>
+                                </a>
+                                <div class="card-body">
+                                    @if ($dokter->certificate)
+                                        <img 
+                                            src="{{ asset('storage/' . $dokter->certificate) }}" 
+                                            alt="Certificate" 
+                                            class="img-fluid rounded" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#imageModal">
+                                    @else
+                                        <p class="text-center mb-0">No certificate uploaded</p>
+                                    @endif
+                                </div>
                             </div>
                         </div>
                     </div>
