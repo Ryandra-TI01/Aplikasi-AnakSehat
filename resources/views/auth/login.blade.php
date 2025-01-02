@@ -13,20 +13,33 @@
                             <div class="app-brand-text demo text-heading fw-medium mb-2">Anak Sehat</div>
                         </div>
                     </div>
-                
-
                     <form method="POST" action="/login">
                         @csrf
+                        @if (session('error'))
+                            <div class="alert alert-danger mb-4">
+                                {{ session('error') }}
+                            </div>
+                        @endif
                         <div class="mb-6">
                             <label for="email" class="form-label">Email</label>
-                            <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" autofocus="" />
+                            <input type="text" class="form-control @error('email') is-invalid @enderror" id="email" name="email" placeholder="Enter your email" autofocus="" />
+                            @error('email')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
                         <div class="mb-6 form-password-toggle">
                             <label class="form-label" for="password">Password</label>
                             <div class="input-group input-group-merge">
-                                <input type="password" id="password" class="form-control" name="password" placeholder="············" aria-describedby="password" />
+                                <input type="password" id="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="············" aria-describedby="password" />
                                 <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                             </div>
+                            @error('password')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
                         <div class="mb-8">
                             <div class="d-flex justify-content-between mt-8">
@@ -36,7 +49,7 @@
                                         Remember Me
                                     </label>
                                 </div>
-                                <a href="auth-forgot-password-basic.html">
+                                <a href="">
                                     <span>Forgot Password?</span>
                                 </a>
                             </div>
@@ -45,6 +58,7 @@
                             <button class="btn btn-primary d-grid w-100" type="submit">Login</button>
                         </div>
                     </form>
+                    
 
                     <p class="text-center">
                         <span>New on our platform?</span>

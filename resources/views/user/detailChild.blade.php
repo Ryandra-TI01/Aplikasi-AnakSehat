@@ -35,22 +35,38 @@
         <div class="col-6">
             <div class="card">
                 <div class="card-body">
-                    <form method="POST" action="{{ route('simpanPerkembangan', $child->id) }}">
-                        @csrf
-                        <div class="mb-6">
-                            <label for="bulan" class="form-label">Umur (bulan) :</label>
-                            <input type="number" name="bulan" class="form-control" id="bulan" min="1" max="60" required>
-                        </div>
-                        <div class="mb-6">
-                            <label for="tinggi" class="form-label">Tinggi Badan (cm):</label>
-                            <input type="number" step="0.1" name="tinggi" class="form-control" id="tinggi" required>
-                        </div>
-                        <div class="mb-6">
-                            <label for="berat" class="form-label">Berat Badan (kg):</label>
-                            <input type="number" step="0.1" name="berat" class="form-control" id="berat" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Update</button>
-                    </form>
+                  <form method="POST" action="{{ route('simpanPerkembangan', $child->id) }}">
+                    @csrf
+                    <div class="mb-6">
+                        <label for="bulan" class="form-label">Umur (bulan) :</label>
+                        <input type="number" name="bulan" class="form-control @error('bulan') is-invalid @enderror" id="bulan" min="1" max="60" value="{{old('bulan')}}">
+                        @error('bulan')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+                    <div class="mb-6">
+                        <label for="tinggi" class="form-label">Tinggi Badan (cm):</label>
+                        <input type="number" step="0.1" name="tinggi" class="form-control @error('tinggi') is-invalid @enderror" id="tinggi" value="{{old('tinggi')}}">
+                        @error('tinggi')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+                    <div class="mb-6">
+                        <label for="berat" class="form-label">Berat Badan (kg):</label>
+                        <input type="number" step="0.1" name="berat" class="form-control @error('berat') is-invalid @enderror" id="berat" value="{{old('berat')}}">
+                        @error('berat')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </form>
+                
                 </div>
             </div>
         </div>

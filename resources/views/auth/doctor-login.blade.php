@@ -17,30 +17,45 @@
 
                     <form method="POST" id="formAuthentication" class="mb-6" action="/doctor/login">
                         @csrf
-                        <div class="mb-6">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" autofocus="" />
-                        </div>
-                        <div class="mb-6 form-password-toggle">
-                            <label class="form-label" for="password">Password</label>
-                            <div class="input-group input-group-merge">
-                                <input type="password" id="password" class="form-control" name="password" placeholder="············" aria-describedby="password" />
-                                <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                    @if (session('error'))
+                    <div class="alert alert-danger mb-4">
+                        {{ session('error') }}
+                    </div>
+                    @endif
+                    <div class="mb-6">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="text" class="form-control @error('email') is-invalid @enderror" id="email" name="email" placeholder="Enter your email" autofocus="" />
+                        @error('email')
+                            <div class="invalid-feedback">
+                                {{ $message }}
                             </div>
+                        @enderror
+                    </div>
+                    <div class="mb-6 form-password-toggle">
+                        <label class="form-label" for="password">Password</label>
+                        <div class="input-group input-group-merge">
+                            <input type="password" id="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="············" aria-describedby="password" />
+                            <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                         </div>
-                        <div class="mb-8">
-                            <div class="d-flex justify-content-between mt-8">
-                                <div class="form-check mb-0 ms-2">
-                                    <input class="form-check-input" type="checkbox" id="remember-me" />
-                                    <label class="form-check-label" for="remember-me">
-                                        Remember Me
-                                    </label>
-                                </div>
-                                <a href="auth-forgot-password-basic.html">
-                                    <span>Forgot Password?</span>
-                                </a>
+                        @error('password')
+                            <div class="invalid-feedback">
+                                {{ $message }}
                             </div>
+                        @enderror
+                    </div>
+                    <div class="mb-8">
+                        <div class="d-flex justify-content-between mt-8">
+                            <div class="form-check mb-0 ms-2">
+                                <input class="form-check-input" type="checkbox" id="remember-me" />
+                                <label class="form-check-label" for="remember-me">
+                                    Remember Me
+                                </label>
+                            </div>
+                            <a href="">
+                                <span>Forgot Password?</span>
+                            </a>
                         </div>
+                    </div>
                         <div class="mb-6">
                             <button class="btn btn-primary d-grid w-100" type="submit">Login</button>
                         </div>

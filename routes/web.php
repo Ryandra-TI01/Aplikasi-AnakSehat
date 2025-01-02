@@ -22,8 +22,10 @@ Route::middleware('auth:web')->group(function () {
     route::get('article/{id}',[UserController ::class,'detailArticle']);
     route::get('consultation',[UserController ::class,'seeResponse']);
     route::post('consultation/send',[UserController ::class,'sendConsultation']);
-    route::get('child/{id}',[UserController ::class,'detailChild'])->middleware(middleware: [EnsureChildOwnership::class]);
-    route::post('child/{id}',[UserController ::class,'simpanPerkembangan'])->name('simpanPerkembangan')->middleware([EnsureChildOwnership::class]);
+    route::get('child/{id}',[UserController ::class,'detailChild'])
+    ->middleware(middleware: [EnsureChildOwnership::class]);
+    route::post('child/{id}',[UserController ::class,'simpanPerkembangan'])
+    ->name('simpanPerkembangan')->middleware([EnsureChildOwnership::class]);
 });
 
 Route::middleware('auth:doctor')->group(function () {

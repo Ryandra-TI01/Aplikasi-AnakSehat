@@ -123,7 +123,7 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body d-flex justify-content-center">
-                                    @if ($artikel->image)
+                                    @if (!empty($artikel->image))
                                         <img src="{{ asset('storage/' . $artikel->image) }}" alt="Gambar Artikel" class="img-fluid">
                                     @else
                                         <p>No certificate uploaded</p>

@@ -81,12 +81,8 @@ id="layout-navbar">
           <div class="dropdown-divider my-1"></div>
         </li>
         <li>
-          @if (Auth::user('doctor'))
-          <a class="dropdown-item" href="profile">
-          @else
           <a class="dropdown-item" href="/profile">
-          @endif
-            <i class="bx bx-user bx-md me-3"></i><span>My Profile</span>
+          <i class="bx bx-user bx-md me-3"></i><span>My Profile</span>
           </a>
         </li>
         <li>

@@ -16,24 +16,49 @@
     
                     <form method="POST" action="/doctor/register">
                         @csrf
+                        @if (session('error'))
+                        <div class="alert alert-danger mb-4">
+                            {{ session('error') }}
+                        </div>
+                        @endif
                         <div class="mb-6">
                             <label for="nama" class="form-label">Nama</label>
-                            <input type="text" class="form-control" id="nama" name="name" placeholder="Enter your name" autofocus="" />
+                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="nama" name="name" placeholder="Enter your name" autofocus="" value="{{ old('name') }}" />
+                            @error('name')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
                         <div class="mb-6">
                             <label for="email" class="form-label">Email</label>
-                            <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" autofocus="" />
+                            <input type="text" class="form-control @error('email') is-invalid @enderror" id="email" name="email" placeholder="Enter your email" value="{{ old('email') }}" />
+                            @error('email')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
                         <div class="mb-6">
                             <label for="phone_number" class="form-label">Phone Number</label>
-                            <input type="text" class="form-control" id="phone_number" name="phone_number" placeholder="Enter your phone number" autofocus="" />
+                            <input type="text" class="form-control @error('phone_number') is-invalid @enderror" id="phone_number" name="phone_number" placeholder="Enter your phone number" value="{{ old('phone_number') }}" />
+                            @error('phone_number')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
                         <div class="mb-6 form-password-toggle">
                             <label class="form-label" for="password">Password</label>
                             <div class="input-group input-group-merge">
-                                <input type="password" id="password" class="form-control" name="password" placeholder="············" aria-describedby="password" oninput="syncPassword()" />
+                                <input type="password" id="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="············" aria-describedby="password" oninput="syncPassword()" value="{{ old('password') }}"/>
                                 <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                             </div>
+                            @error('password')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
                         
                         <!-- Hidden Confirm Password -->
@@ -41,13 +66,18 @@
                         
                         <div class="my-8">
                             <div class="form-check mb-0 ms-2">
-                              <input class="form-check-input" type="checkbox" id="terms-conditions" name="terms">
-                              <label class="form-check-label" for="terms-conditions">
-                                I agree to
-                                <a href="javascript:void(0);">privacy policy &amp; terms</a>
-                              </label>
+                                <input class="form-check-input @error('terms') is-invalid @enderror" type="checkbox" id="terms-conditions" name="terms" required>
+                                <label class="form-check-label" for="terms-conditions">
+                                    I agree to
+                                    <a href="javascript:void(0);">privacy policy &amp; terms</a>
+                                </label>
+                                @error('terms')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
-                          </div>
+                        </div>
                         <div class="mb-6">
                             <button class="btn btn-primary d-grid w-100" type="submit">Sign Up</button>
                         </div>
