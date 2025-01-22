@@ -6,6 +6,7 @@ use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use Filament\Forms;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -35,6 +36,12 @@ class UserResource extends Resource
                 //     ->placeholder('Hanya untuk pengguna Google')
                 //     ->maxLength(255)
                 //     ->default(null),
+                Select::make('roles')
+                ->label('Roles')
+                ->multiple()
+                ->relationship('roles', 'name')
+                ->preload()
+                ->required(),
                 Forms\Components\TextInput::make('email')
                     ->email()
                     ->required()
@@ -43,7 +50,7 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('password')
                     ->password()
                     ->maxLength(255)
-                    ->required()
+                    // ->required()
                     ->default(null),
             ]);
     }
