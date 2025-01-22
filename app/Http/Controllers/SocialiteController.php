@@ -28,9 +28,18 @@ class SocialiteController extends Controller
             'google_token' => $googleUser->token,
             'google_refresh_token' => $googleUser->refreshToken,
         ]);
+
+        if (!$user->hasAnyRole(['pengguna', 'doctor', 'admin'])) {
+            $user->assignRole('pengguna');
+        }
      
         Auth::login($user);
-     
-        return redirect('/dashboard');
+        if (Auth::user()->hasRole('admin')) {
+            return redirect()->intended(route('filament.admin.pages.dashboard', absolute: false));
+        }else if(Auth::user()->hasRole('doctor')) {
+            return redirect()->intended(route('doctor.dashboard', absolute: false));
+        }else {
+            return redirect()->intended(route('dashboard', absolute: false));
+        }
     }
 }

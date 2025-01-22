@@ -23,6 +23,17 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::middleware(['auth', 'verified','CheckDoctorRole','role:doctor'])
+    ->name('doctor.')
+    ->prefix('doctor')
+    ->group(function () {
+    Route::get('/TEST', function () {
+        return 'INI DOCTOR';
+    })->name('dashboard');
+});
+
+
 Route::middleware(['web', 'auth', 'role:admin'])
     ->prefix('admin');
 Route::group(['middleware' => ['role:admin', 'auth']], function () {
