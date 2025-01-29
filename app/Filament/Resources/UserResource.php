@@ -12,6 +12,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Table;
+use Hash;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -38,7 +39,7 @@ class UserResource extends Resource
                 //     ->default(null),
                 Select::make('roles')
                 ->label('Roles')
-                ->multiple()
+                // ->multiple()
                 ->relationship('roles', 'name')
                 ->preload()
                 ->required(),
@@ -50,6 +51,8 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('password')
                     ->password()
                     ->maxLength(255)
+                    ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))
+                    ->dehydrated(fn (?string $state): bool => filled($state))
                     // ->required()
                     ->default(null),
             ]);
@@ -82,6 +85,9 @@ class UserResource extends Resource
                 //     ->dateTime()
                 //     ->sortable()
                 //     ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('roles.name')
+                    ->searchable()
+                    ->badge()
             ])
             ->emptyStateHeading('Tidak Ada Users')
             ->emptyStateDescription('Silahkan menambahkan users terlebih dahulu.')

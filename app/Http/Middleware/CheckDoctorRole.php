@@ -16,8 +16,11 @@ class CheckDoctorRole
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::check() || !$request->user()->hasRole('doctor')) {
-            return redirect()->route('dashboard'); // Redirect ke halaman yang sesuai
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+        if (!$request->user()->hasRole('doctor')) {
+            abort(403, 'Unauthorized access');
         }
         return $next($request);
     }
