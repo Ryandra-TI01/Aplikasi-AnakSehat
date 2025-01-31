@@ -137,7 +137,8 @@ class ArticleResource extends Resource
         return parent::getEloquentQuery()
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
-            ]);
+            ])
+            ->where('doctor_id', auth()->id());
     }
 
     public static function beforeCreate($form, $record): void

@@ -39,7 +39,10 @@ class ArticleResource extends Resource
                     ->columnSpanFull()
                     ->required(),
                 Forms\Components\Select::make('doctor_id')
-                    ->relationship('User', 'name')
+                    ->relationship('user', 'name', 
+                    fn ($query) => $query->whereHas('roles', function ($query) {
+                        $query->whereIn('name', ['admin', 'doctor']);
+                    }))
                     ->label('Dokter')
                     ->required(),
                 Forms\Components\Select::make('status')
@@ -65,6 +68,7 @@ class ArticleResource extends Resource
                     ->date()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('user.name')
+                    ->label('Dokter')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('ArticleCategory.name')
                     ->badge()
