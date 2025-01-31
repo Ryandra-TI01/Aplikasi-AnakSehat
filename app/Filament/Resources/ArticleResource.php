@@ -30,7 +30,7 @@ class ArticleResource extends Resource
                     ->maxLength(255),
                 Forms\Components\DatePicker::make('date')
                     ->required(),
-                Forms\Components\Textarea::make('content')
+                    Forms\Components\RichEditor::make('content')
                     ->label('Isi Artikel')
                     ->required()
                     ->columnSpanFull(),
@@ -42,7 +42,11 @@ class ArticleResource extends Resource
                     ->relationship('User', 'name')
                     ->label('Dokter')
                     ->required(),
-
+                Forms\Components\Select::make('status')
+                    ->options([
+                        'Awaiting Approval' => 'Awaiting Approval',
+                        'Approved' => 'Approved',
+                    ]),
                 Forms\Components\Select::make('slug')
                     ->relationship('ArticleCategory', 'name')
                     ->required(),
@@ -62,10 +66,17 @@ class ArticleResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('user.name')
                     ->sortable(),
-                // Tables\Columns\ImageColumn::make('image'),
                 Tables\Columns\TextColumn::make('ArticleCategory.name')
                     ->badge()
                     ->label('Kategori Artikel')
+                    ->searchable(),
+                    Tables\Columns\TextColumn::make('status')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'Awaiting Approval' => 'warning',
+                        'Approved' => 'success',
+                    })
+                    ->label('Status')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime()

@@ -41,6 +41,10 @@ class ArticleResource extends Resource
                 Forms\Components\Hidden::make('doctor_id')
                     ->default(fn () => auth()->user()->id)
                     ->required(),
+                Forms\Components\Hidden::make('status')
+                    // ->disabled()
+                    // ->dehydrated()
+                    ->default('Awaiting Approval'),
                 Forms\Components\Select::make('slug')
                     ->relationship('ArticleCategory', 'name')
                     ->required(),
@@ -61,10 +65,17 @@ class ArticleResource extends Resource
                 Tables\Columns\TextColumn::make('user.name')
                     ->label('Dokter')
                     ->sortable(),
-                // Tables\Columns\ImageColumn::make('image'),
                 Tables\Columns\TextColumn::make('ArticleCategory.name')
                     ->badge()
                     ->label('Kategori Artikel')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('status')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'Awaiting Approval' => 'warning',
+                        'Approved' => 'success',
+                    })
+                    ->label('Status')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime()
