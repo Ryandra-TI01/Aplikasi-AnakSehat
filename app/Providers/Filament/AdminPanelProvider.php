@@ -58,6 +58,7 @@ class AdminPanelProvider extends PanelProvider
                 // Authenticate::class,
             ])
             ->spa()
+            ->databaseNotifications();
             ;
     }
 }
