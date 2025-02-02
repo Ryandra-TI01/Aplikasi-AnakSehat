@@ -19,11 +19,18 @@ class CreateArticle extends CreateRecord
         $admins = User::role('admin')->get();
 
         // Kirim notifikasi ke admin
+        // Notification::make()
+        //     ->title("Waiting for approval...")
+        //     ->icon('heroicon-s-exclamation-circle')
+        //     ->iconColor('warning')
+        //     ->body('Artikel baru telah ditambahkan oleh dokter ' . $this->record->user->name)
+        //     ->sendToDatabase($admins);
         Notification::make()
             ->title("Waiting for approval...")
             ->icon('heroicon-s-exclamation-circle')
             ->iconColor('warning')
             ->body('Artikel baru telah ditambahkan oleh dokter ' . $this->record->user->name)
-            ->sendToDatabase($admins);
+            ->sendToDatabase($admins)
+            ->broadcast($admins);
     }
 }
