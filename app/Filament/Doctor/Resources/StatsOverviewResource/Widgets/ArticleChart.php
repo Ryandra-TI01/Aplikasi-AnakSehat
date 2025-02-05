@@ -11,7 +11,7 @@ use Flowframe\Trend\TrendValue;
 class ArticleChart extends ChartWidget
 {
     protected static ?string $heading = 'Total Article Monitored';
-    protected static ?string $pollingInterval = '2s';
+    protected static ?string $pollingInterval = '5s';
     protected int | string | array $columnSpan = 'full';
     public ?string $filter = 'year';
 

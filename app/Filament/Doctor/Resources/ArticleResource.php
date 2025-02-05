@@ -65,6 +65,7 @@ class ArticleResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('ArticleCategory.name')
                     ->badge()
+                    ->color('gray')
                     ->label('Kategori Artikel')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('status')
@@ -74,16 +75,20 @@ class ArticleResource extends Resource
                         'Approved' => 'success',
                     })
                     ->label('Status')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('deleted_at')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Tanggal Diperbarui')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                Tables\Columns\TextColumn::make('deleted_at')
+                    ->label('Tanggal Dihapus')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('created_at', 'desc')
             ->emptyStateHeading('Tidak Ada Artikel')
             ->emptyStateDescription('Silahkan menambahkan artikel')
             ->emptyStateIcon('heroicon-o-book-open')

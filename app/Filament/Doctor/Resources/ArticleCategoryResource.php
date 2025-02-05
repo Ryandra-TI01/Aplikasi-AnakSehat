@@ -36,15 +36,17 @@ class ArticleCategoryResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->label('Kategori Artikel')
+                    ->badge()
+                    ->color('gray')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('Tanggal Dibuat')
                     ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Tanggal Diperbarui')
                     ->dateTime()
                     ->sortable()
-                    // ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->emptyStateHeading('Tidak Ada Artikel Kategori')
             ->emptyStateDescription('Silahkan menambahkan artikel kategori terlebih dahulu.')
