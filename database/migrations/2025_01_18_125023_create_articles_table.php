@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->string('title', 255);
             $table->text('content');
-            $table->date('date');
             $table->unsignedBigInteger('doctor_id')->refrences('id')->on('users');
             $table->enum('status', ['Awaiting Approval', 'Approved']);
             $table->string('image', 255);

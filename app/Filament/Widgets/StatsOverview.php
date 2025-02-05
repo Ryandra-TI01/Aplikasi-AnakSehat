@@ -10,24 +10,24 @@ use Filament\Widgets\StatsOverviewWidget\Stat;
 
 class StatsOverview extends BaseWidget
 {
+    protected static ?string $pollingInterval = '2s';
+    protected int | string | array $columnSpan = 'full';
+
     protected function getStats(): array
     {
-        $totalUser = User::count();
-        $totalChild = Child::count();
-        $totalArticle = Article::count();
         return [
-            Stat::make('Total User', $totalUser)
-            ->description('32k increase')
-            ->descriptionIcon('heroicon-m-arrow-trending-up')
+        Stat::make('Total User', User::count())
+            ->description('Total of Users Monitored')
+            ->color('info'),
+        Stat::make('Total Child', Child::count())
+            ->description('Total of Children Monitored')
             ->color('success'),
-        Stat::make(' Total Child', $totalChild)
-            ->description('7% increase')
-            ->descriptionIcon('heroicon-m-arrow-trending-down')
-            ->color('danger'),
-        Stat::make(' Total Article', $totalChild)
-            ->description('7% increase')
-            ->descriptionIcon('heroicon-m-arrow-trending-down')
-            ->color('success'),
+        Stat::make('Article Published', Article::where('status', 'Approved')->count())
+            ->description('Articles that have been published')
+            ->color('primary'),
+        Stat::make('Articles Pending', Article::where('status', 'Awaiting Approval')->count())
+            ->description('Articles Awaiting Approval')
+            ->color('warning'),
         ];
     }
 }

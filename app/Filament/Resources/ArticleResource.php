@@ -28,8 +28,6 @@ class ArticleResource extends Resource
                     ->label('Judul Artikel')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\DatePicker::make('date')
-                    ->required(),
                     Forms\Components\RichEditor::make('content')
                     ->label('Isi Artikel')
                     ->required()
@@ -63,10 +61,10 @@ class ArticleResource extends Resource
                 Tables\Columns\TextColumn::make('title')
                     ->label('Judul Artikel')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('date')
-                    ->label('Tanggal Publikasi')
-                    ->date()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->label('Tanggal Publikasi'),
                 Tables\Columns\TextColumn::make('user.name')
                     ->label('Dokter')
                     ->sortable(),
@@ -83,10 +81,6 @@ class ArticleResource extends Resource
                     ->label('Status')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('deleted_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
