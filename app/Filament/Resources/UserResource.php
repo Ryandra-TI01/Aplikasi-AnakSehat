@@ -30,31 +30,32 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                // Forms\Components\TextInput::make('google_id')
-                //     ->maxLength(255)
-                //     ->default(null),
-                // Forms\Components\TextInput::make('google_avatar')
-                //     ->placeholder('Hanya untuk pengguna Google')
-                //     ->maxLength(255)
-                //     ->default(null),
-                Select::make('roles')
-                ->label('Roles')
-                // ->multiple()
-                ->relationship('roles', 'name')
-                ->preload()
-                ->required(),
                 Forms\Components\TextInput::make('email')
                     ->email()
                     ->required()
                     ->maxLength(255),
-                // Forms\Components\DateTimePicker::make('email_verified_at'),
-                Forms\Components\TextInput::make('password')
-                    ->password()
-                    ->maxLength(255)
-                    ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))
-                    ->dehydrated(fn (?string $state): bool => filled($state))
-                    // ->required()
-                    ->default(null),
+                    // Forms\Components\DateTimePicker::make('email_verified_at'),
+                    Forms\Components\TextInput::make('password')
+                        ->password()
+                        ->maxLength(255)
+                        ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))
+                        ->dehydrated(fn (?string $state): bool => filled($state))
+                        // ->required()
+                        ->default(null),
+                Select::make('roles')
+                    ->label('Roles')
+                    ->relationship('roles', 'name')
+                    ->preload()
+                    ->required(),
+                Forms\Components\SpatieMediaLibraryFileUpload::make('avatar')
+                        ->collection('avatars')
+                        ->reorderable()
+                        ->maxSize(10000)
+                        ->avatar()
+                        ->image()
+                        ->imageEditor()
+                        ->label('Avatar')
+                        ->default(null),
             ]);
     }
 
@@ -64,56 +65,60 @@ class UserResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
-                // Tables\Columns\TextColumn::make('google_id')
-                //     ->searchable(),
-                // Tables\Columns\TextColumn::make('google_avatar')
-                //     ->searchable(),
+                Tables\Columns\SpatieMediaLibraryImageColumn::make('avatar')
+                    ->collection('avatars')
+                    ->label('Avatar')
+                    ->getStateUsing(fn ($record) => $record->getFirstMediaUrl('avatars'))
+                    ->circular(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
                 // Tables\Columns\TextColumn::make('email_verified_at')
                 //     ->dateTime()
                 //     ->sortable(),
                 Tables\Columns\TextColumn::make('deleted_at')
+                    ->label('Tanggal Dihapus')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                // Tables\Columns\TextColumn::make('created_at')
-                //     ->dateTime()
-                //     ->sortable()
-                //     ->toggleable(isToggledHiddenByDefault: true),
-                // Tables\Columns\TextColumn::make('updated_at')
-                //     ->dateTime()
-                //     ->sortable()
-                //     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('roles.name')
-                    ->searchable()
-                    ->badge()
-            ])
-            ->emptyStateHeading('Tidak Ada Users')
-            ->emptyStateDescription('Silahkan menambahkan users terlebih dahulu.')
-            ->emptyStateIcon('heroicon-o-user')
-            ->emptyStateActions([
-                Action::make('create')
-                    ->label('Create User')
-                    ->url(route('filament.admin.resources.users.create'))
-                    ->icon('heroicon-m-plus')
-                    ->button(),
-            ])
-            ->filters([
-                Tables\Filters\TrashedFilter::make(),
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    Tables\Actions\ForceDeleteBulkAction::make(),
-                    Tables\Actions\RestoreBulkAction::make(),
-                ]),
-            ]);
-    }
+                        ->searchable()
+                        ->badge(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Tanggal Dibuat')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updated_at')
+                            ->label('Tanggal Diperbarui')
+                            ->dateTime()
+                            ->sortable()
+                            ->toggleable(isToggledHiddenByDefault: true),
+                    ])
+                    ->emptyStateHeading('Tidak Ada Users')
+                    ->emptyStateDescription('Silahkan menambahkan users terlebih dahulu.')
+                    ->emptyStateIcon('heroicon-o-user')
+                    ->emptyStateActions([
+                        Action::make('create')
+                            ->label('Create User')
+                            ->url(route('filament.admin.resources.users.create'))
+                            ->icon('heroicon-m-plus')
+                            ->button(),
+                    ])
+                    ->filters([
+                        Tables\Filters\TrashedFilter::make(),
+                    ])
+                    ->actions([
+                        Tables\Actions\EditAction::make(),
+                        Tables\Actions\DeleteAction::make(),
+                    ])
+                    ->bulkActions([
+                        Tables\Actions\BulkActionGroup::make([
+                            Tables\Actions\DeleteBulkAction::make(),
+                            Tables\Actions\ForceDeleteBulkAction::make(),
+                            Tables\Actions\RestoreBulkAction::make(),
+                        ]),
+                    ]);
+            }
 
     public static function getRelations(): array
     {
