@@ -5,11 +5,13 @@ namespace App\Filament\Doctor\Resources;
 use App\Filament\Doctor\Resources\ArticleResource\Pages;
 use App\Filament\Doctor\Resources\ArticleResource\RelationManagers;
 use App\Models\Article;
+use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Actions\Action;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -25,27 +27,38 @@ class ArticleResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('title')
-                    ->label('Judul Artikel')
-                    ->required()
-                    ->maxLength(255),
+                ->label('Judul Artikel')
+                ->required()
+                ->maxLength(255),
+
+                Forms\Components\Select::make('slug')
+                    ->relationship('ArticleCategory', 'name')
+                    ->required(),
+
                 Forms\Components\RichEditor::make('content')
                     ->label('Isi Artikel')
                     ->required()
                     ->columnSpanFull(),
-                Forms\Components\FileUpload::make('image')
+
+                Forms\Components\SpatieMediaLibraryFileUpload::make('article_images')
+                    ->collection('article_images')
+                    ->disk('public')
+                    ->label('Gambar Artikel')
                     ->image()
+                    ->imageEditor()
+                    ->maxSize(10000)
+                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                     ->columnSpanFull()
                     ->required(),
+
                 Forms\Components\Hidden::make('doctor_id')
                     ->default(fn () => auth()->user()->id)
                     ->required(),
+
                 Forms\Components\Hidden::make('status')
                     // ->disabled()
                     // ->dehydrated()
                     ->default('Awaiting Approval'),
-                Forms\Components\Select::make('slug')
-                    ->relationship('ArticleCategory', 'name')
-                    ->required(),
             ]);
     }
 
@@ -55,19 +68,27 @@ class ArticleResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('title')
                     ->label('Judul Artikel')
+                    ->limit(30)
+                    ->sortable()
                     ->searchable(),
-                    Tables\Columns\TextColumn::make('created_at')
+
+                Tables\Columns\TextColumn::make('created_at')
                     ->label('Tanggal Publikasi')
-                    ->dateTime()
+                    ->alignCenter()
+                    ->date('d M Y')
                     ->sortable(),
+                    // ->formatStateUsing(callback: fn ($state) => optional(Carbon::parse($state))->diffForHumans()) ,
+                    
                 Tables\Columns\TextColumn::make('user.name')
                     ->label('Dokter')
                     ->sortable(),
+
                 Tables\Columns\TextColumn::make('ArticleCategory.name')
                     ->badge()
                     ->color('gray')
                     ->label('Kategori Artikel')
                     ->searchable(),
+
                 Tables\Columns\TextColumn::make('status')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
@@ -77,16 +98,21 @@ class ArticleResource extends Resource
                     ->label('Status')
                     ->searchable()
                     ->sortable(),
+
                 Tables\Columns\TextColumn::make('updated_at')
                     ->label('Tanggal Diperbarui')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                    // ->formatStateUsing(fn ($state) => optional(Carbon::parse($state))->diffForHumans()),
+
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->label('Tanggal Dihapus')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                    // ->formatStateUsing(fn ($state) => optional(Carbon::parse($state))->diffForHumans()),
+
             ])
             ->defaultSort('created_at', 'desc')
             ->emptyStateHeading('Tidak Ada Artikel')
@@ -101,6 +127,12 @@ class ArticleResource extends Resource
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
+                SelectFilter::make('status')
+                ->label('Status')
+                ->options([
+                    'Awaiting Approval' => 'Awaiting Approval',
+                    'Approved' => 'Approved',
+                ])
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

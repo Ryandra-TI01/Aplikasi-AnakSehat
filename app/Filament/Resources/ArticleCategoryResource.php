@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ArticleCategoryResource\Pages;
 use App\Filament\Resources\ArticleCategoryResource\RelationManagers;
 use App\Models\ArticleCategory;
+use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -25,6 +26,7 @@ class ArticleCategoryResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label('Kategori Artikel')
                     ->required()
                     ->maxLength(255),
             ]);
@@ -37,14 +39,16 @@ class ArticleCategoryResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->label('Kategori Artikel')
                     ->searchable(),
+
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->label('Tanggal Dibuat')
+                    ->date('d M Y')
+                    ->sortable(),
+    
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Tanggal Diperbarui')
                     ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->sortable(),
             ])
             ->emptyStateHeading('Tidak Ada Artikel Kategori')
             ->emptyStateDescription('Silahkan menambahkan artikel kategori terlebih dahulu.')

@@ -2,8 +2,7 @@
 
 namespace App\Providers\Filament;
 
-use App\Filament\Doctor\Resources\ChildResource\Widgets\ArticleChart;
-use App\Filament\Doctor\Resources\ChildResource\Widgets\ChildChart;
+use App\Filament\Doctor\Resources\StatsOverviewResource\Widgets\ArticleChart;
 use App\Filament\Doctor\Resources\StatsOverviewResource\Widgets\StatsOverview;
 use App\Http\Middleware\CheckDoctorRole;
 use Filament\Http\Middleware\Authenticate;
@@ -42,7 +41,7 @@ class DoctorPanelProvider extends PanelProvider
             // ->discoverWidgets(in: app_path('Filament/Doctor/Widgets'), for: 'App\\Filament\\Doctor\\Widgets')
             ->widgets([
                 StatsOverview::class,
-                ArticleChart::class
+                ArticleChart::class,
             ])
             ->middleware([
                 EncryptCookies::class,

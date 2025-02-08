@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Doctor\Resources\ChildResource\Widgets;
+namespace App\Filament\Doctor\Resources\StatsOverviewResource\Widgets;
 
 use App\Models\Article;
 use Carbon\Carbon;

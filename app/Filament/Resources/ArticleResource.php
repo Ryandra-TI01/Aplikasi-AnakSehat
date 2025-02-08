@@ -5,11 +5,13 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ArticleResource\Pages;
 use App\Filament\Resources\ArticleResource\RelationManagers;
 use App\Models\Article;
+use Carbon\Carbon;
 use Filament\Tables\Actions\Action;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -28,29 +30,40 @@ class ArticleResource extends Resource
                     ->label('Judul Artikel')
                     ->required()
                     ->maxLength(255),
-                    Forms\Components\RichEditor::make('content')
-                    ->label('Isi Artikel')
-                    ->required()
-                    ->columnSpanFull(),
-                Forms\Components\FileUpload::make('image')
+
+                Forms\Components\Select::make('slug')
+                        ->relationship('ArticleCategory', 'name')
+                        ->required(),
+
+                 Forms\Components\RichEditor::make('content')
+                        ->label('Isi Artikel')
+                        ->required()
+                        ->columnSpanFull(),
+
+                Forms\Components\SpatieMediaLibraryFileUpload::make('article_images')
+                    ->collection('article_images')
+                    ->disk('public')
+                    ->label('Gambar Artikel')
                     ->image()
+                    ->imageEditor()
+                    ->maxSize(10000)
+                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                     ->columnSpanFull()
                     ->required(),
+
                 Forms\Components\Select::make('doctor_id')
                     ->relationship('user', 'name', 
                     fn ($query) => $query->whereHas('roles', function ($query) {
-                        $query->whereIn('name', ['admin', 'doctor']);
+                        $query->where('name','doctor');
                     }))
                     ->label('Dokter')
                     ->required(),
+
                 Forms\Components\Select::make('status')
                     ->options([
                         'Awaiting Approval' => 'Awaiting Approval',
                         'Approved' => 'Approved',
                     ]),
-                Forms\Components\Select::make('slug')
-                    ->relationship('ArticleCategory', 'name')
-                    ->required(),
             ]);
     }
 
@@ -60,34 +73,46 @@ class ArticleResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('title')
                     ->label('Judul Artikel')
+                    ->limit(30)
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->label('Tanggal Publikasi'),
+                    ->label('Tanggal Publikasi')
+                    ->alignCenter()
+                    ->date('d M Y')
+                    ->sortable(),
+                    // ->formatStateUsing(callback: fn ($state) => optional(Carbon::parse($state))->diffForHumans()),
+
                 Tables\Columns\TextColumn::make('user.name')
                     ->label('Dokter')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('ArticleCategory.name')
                     ->badge()
+                    ->color('gray')
                     ->label('Kategori Artikel')
                     ->searchable(),
-                    Tables\Columns\TextColumn::make('status')
+                Tables\Columns\TextColumn::make('status')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'Awaiting Approval' => 'warning',
                         'Approved' => 'success',
                     })
                     ->label('Status')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('deleted_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Tanggal Diperbarui')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                    // ->formatStateUsing(fn ($state) => optional(Carbon::parse($state))->diffForHumans()),
+
+                Tables\Columns\TextColumn::make('deleted_at')
+                    ->label('Tanggal Dihapus')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                    // ->formatStateUsing(callback: fn ($state) => optional(Carbon::parse($state))->diffForHumans()),
+    
             ])
             ->emptyStateHeading('Tidak Ada Artikel')
             ->emptyStateDescription('Silahkan menambahkan artikel')
@@ -101,6 +126,12 @@ class ArticleResource extends Resource
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
+                SelectFilter::make('status')
+                    ->label('Status')
+                    ->options([
+                        'Awaiting Approval' => 'Awaiting Approval',
+                        'Approved' => 'Approved',
+                    ])
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

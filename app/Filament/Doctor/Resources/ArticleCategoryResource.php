@@ -5,6 +5,7 @@ namespace App\Filament\Doctor\Resources;
 use App\Filament\Doctor\Resources\ArticleCategoryResource\Pages;
 use App\Filament\Doctor\Resources\ArticleCategoryResource\RelationManagers;
 use App\Models\ArticleCategory;
+use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -37,16 +38,18 @@ class ArticleCategoryResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->label('Kategori Artikel')
                     ->badge()
-                    ->color('gray')
+                    ->color('info')
                     ->searchable(),
+
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Tanggal Dibuat')
+                    ->date('d M Y')
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('updated_at')
+                ->label('Tanggal Diperbarui')
                     ->dateTime()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Tanggal Diperbarui')
-                    ->dateTime()
-                    ->sortable()
             ])
             ->emptyStateHeading('Tidak Ada Artikel Kategori')
             ->emptyStateDescription('Silahkan menambahkan artikel kategori terlebih dahulu.')
