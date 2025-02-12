@@ -15,6 +15,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Rmsramos\Activitylog\Actions\ActivityLogTimelineTableAction;
 
 class ArticleResource extends Resource
 {
@@ -136,6 +137,8 @@ class ArticleResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                ActivityLogTimelineTableAction::make('Activities'),
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

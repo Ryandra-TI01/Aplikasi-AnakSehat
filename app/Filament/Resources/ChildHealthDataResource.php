@@ -12,6 +12,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Table;
+use Rmsramos\Activitylog\Actions\ActivityLogTimelineTableAction;
 
 
 class ChildHealthDataResource extends Resource
@@ -143,6 +144,8 @@ class ChildHealthDataResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                ActivityLogTimelineTableAction::make('Activities'),
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

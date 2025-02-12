@@ -3,10 +3,13 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Events\RoleChanged;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Permission\Traits\HasRoles;
@@ -14,7 +17,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable implements HasMedia
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable,HasRoles,SoftDeletes,InteractsWithMedia;
+    use HasFactory, Notifiable,HasRoles,SoftDeletes,InteractsWithMedia,LogsActivity;
 
     /**
      * The attributes that are mass assignable.
@@ -58,6 +61,12 @@ class User extends Authenticatable implements HasMedia
         $this->addMediaCollection('avatars')
             ->useDisk('public') // Simpan di storage/public
             ->singleFile(); // Hanya bisa punya 1 avatar
+    }
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+        ->logOnly(['name', 'email', 'password'])
+        ->logOnlyDirty();
     }
     public function Child(){
         return $this->hasMany(Child::class);

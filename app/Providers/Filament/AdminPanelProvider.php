@@ -20,6 +20,7 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Rmsramos\Activitylog\ActivitylogPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -60,7 +61,11 @@ class AdminPanelProvider extends PanelProvider
                 // Authenticate::class,
             ])
             ->spa()
-            ->databaseNotifications();
-            ;
+            ->databaseNotifications()
+            ->plugins([
+                ActivitylogPlugin::make()
+                    ->navigationGroup('Activity Log')
+                    ->navigationCountBadge(true),
+            ]);
     }
 }
