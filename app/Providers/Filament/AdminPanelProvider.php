@@ -2,6 +2,8 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Resources\ActivityLogAdminResource\Pages\ActivityLog;
+use App\Filament\Resources\ActivityLogCustomResource;
 use App\Filament\Widgets\ChildChart;
 use App\Filament\Widgets\StatsOverview;
 use App\Filament\Widgets\UserChart;
@@ -64,7 +66,9 @@ class AdminPanelProvider extends PanelProvider
             ->databaseNotifications()
             ->plugins([
                 ActivitylogPlugin::make()
+                    ->resource(ActivityLogCustomResource::class)
                     ->navigationGroup('Activity Log')
+                    ->navigationIcon('bi-clock-history')
                     ->navigationCountBadge(true),
             ]);
     }

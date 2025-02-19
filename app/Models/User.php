@@ -4,6 +4,8 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Events\RoleChanged;
+use App\Observers\UserObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -12,7 +14,9 @@ use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
+
 
 class User extends Authenticatable implements HasMedia
 {
@@ -67,6 +71,10 @@ class User extends Authenticatable implements HasMedia
         return LogOptions::defaults()
         ->logOnly(['name', 'email', 'password'])
         ->logOnlyDirty();
+    }
+    public function getCauserNameAttribute(): string
+    {
+        return $this->email; // Menggunakan email sebagai nama causer
     }
     public function Child(){
         return $this->hasMany(Child::class);

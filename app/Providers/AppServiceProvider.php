@@ -2,7 +2,12 @@
 
 namespace App\Providers;
 
+use App\Events\RoleChanged;
+use App\Listeners\LogRoleChange;
+use App\Models\User;
+use App\Observers\UserObserver;
 use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -20,6 +25,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Event::listen(
+            LogRoleChange::class
+        );
+
         LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
             $switch
                 ->locales(['en','id']) // also accepts a closure

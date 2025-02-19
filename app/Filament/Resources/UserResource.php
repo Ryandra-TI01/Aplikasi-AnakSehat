@@ -2,11 +2,11 @@
 
 namespace App\Filament\Resources;
 
+use App\Events\RoleChanged;
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use Filament\Forms;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -15,7 +15,10 @@ use Filament\Tables\Table;
 use Hash;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Request;
 use Rmsramos\Activitylog\Actions\ActivityLogTimelineTableAction;
+use Spatie\Permission\Models\Role;
+use Filament\Forms\Components\Section;
 
 class UserResource extends Resource
 {
@@ -45,7 +48,7 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('password')
                     ->label('Password')
                     ->password()
-                    ->nullable()
+                    ->required(fn (string $context): bool => $context === 'create')
                     ->maxLength(255)
                     ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))
                     ->dehydrated(fn (?string $state): bool => filled($state)) // Hanya di-hash jika diisi
@@ -53,18 +56,40 @@ class UserResource extends Resource
     
                 Forms\Components\TextInput::make('password_confirmation')
                     ->label('Konfirmasi Password')
+                    ->required(fn (string $context): bool => $context === 'create')
                     ->password()
                     ->same('password') // Harus sama dengan password
-                    ->nullable()
                     ->placeholder('Masukkan ulang password'),
-    
-                Select::make('roles')
-                    ->label('Roles')
-                    ->relationship('roles', 'name')
-                    ->preload()
-                    ->required()
-                    ->placeholder('Pilih peran'),
-    
+
+ 
+                Section::make('Rate limiting')
+                    ->description('Prevent abuse by limiting the number of requests per period')
+                    ->schema([
+                        // ...
+                        // Forms\Components\Select::make('roles')
+                        //     ->label('Roles')
+                        //     ->relationship('roles', 'name')
+                        //     ->preload()
+                        //     ->required()
+                        //     ->placeholder('Pilih peran'),
+                        Forms\Components\Select::make('roles')
+                            ->label('Roles')
+                            ->options(Role::pluck('name', 'id')) // Ambil semua role dari DB
+                            ->relationship('roles', 'name')
+                            ->placeholder('Pilih peran')
+                            ->preload()
+                            ->required()
+                            ->afterStateUpdated(function ($state, $record) {
+                                $old_roles = $record->roles->pluck('name');
+                                $new_roles = Role::find($state);
+                                $record->syncRoles($new_roles);
+                                
+                                event(new RoleChanged($record,$old_roles,$record->roles->pluck('name'))); // Panggil event
+                                // dd($state,$new_roles, $record->roles->pluck('name'),$old_roles); // Debug setelah perubahan
+                            }),
+                            
+                    ]),
+
                 Forms\Components\SpatieMediaLibraryFileUpload::make('avatars')
                     ->collection('avatars')
                     ->disk('public')
