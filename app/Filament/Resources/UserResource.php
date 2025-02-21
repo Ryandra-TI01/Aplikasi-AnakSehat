@@ -80,6 +80,7 @@ class UserResource extends Resource
                             ->preload()
                             ->required()
                             ->afterStateUpdated(function ($state, $record) {
+                                if(!$record) return;
                                 $old_roles = $record->roles->pluck('name');
                                 $new_roles = Role::find($state);
                                 $record->syncRoles($new_roles);
