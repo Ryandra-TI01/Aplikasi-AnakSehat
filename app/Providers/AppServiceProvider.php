@@ -7,6 +7,7 @@ use App\Listeners\LogRoleChange;
 use App\Models\User;
 use App\Observers\UserObserver;
 use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
+use Gate;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
@@ -25,6 +26,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Gate::define('viewPulse', function (User $user) {
+            return $user->hasRole('admin');
+        });
         Event::listen(
             LogRoleChange::class
         );

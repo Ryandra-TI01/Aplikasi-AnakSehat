@@ -8,3 +8,5 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote')->hourly();
 
 Schedule::command('app:clear-activity-log')->weekly();
+
+Schedule::command('pulse:clear')->weekly();
