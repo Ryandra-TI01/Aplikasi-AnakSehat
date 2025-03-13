@@ -3,10 +3,13 @@
 namespace Tests\Feature;
 
 // use Illuminate\Foundation\Testing\RefreshDatabase;
+use Database\Seeders\RolePermissionSeeder;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
+    use RefreshDatabase;
     /**
      * A basic test example.
      */
@@ -15,5 +18,15 @@ class ExampleTest extends TestCase
         $response = $this->get('/');
 
         $response->assertStatus(200);
+    }
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->seed(RolePermissionSeeder::class); // ✅ Seed role sebelum test
+    }
+
+    public function test_example(): void
+    {
+        $this->assertDatabaseHas('roles', ['name' => 'admin']); // Cek role tersedia
     }
 }

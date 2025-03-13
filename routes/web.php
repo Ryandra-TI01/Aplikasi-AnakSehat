@@ -41,6 +41,3 @@ Route::group(['middleware' => ['role:admin', 'auth']], function () {
         return 'INI ADMIN';
     });
  });
-
-
-require __DIR__.'/auth.php';
