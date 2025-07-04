@@ -1,6 +1,6 @@
 <p align="center">
   <a href="#" target="_blank" >
-    <img src="https://github.com/Ryandra-TI01/Aplikasi-AnakSehat/blob/main/public/admin/assets/img/logo-rpl.jpeg?raw=true" alt="Logo AnakSehat" style="border-radius: 50%; width: 150px;">
+    <img src="https://raw.githubusercontent.com/Ryandra-TI01/Aplikasi-AnakSehat/f347f0d02e567a4062a0443eedc589c79de1aa78/public/Logo-AnakSehat.png" alt="Logo AnakSehat" style="border-radius: 50%; width: 150px;">
   </a>
 </p>
 
