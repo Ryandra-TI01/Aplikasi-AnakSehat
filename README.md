@@ -7,7 +7,7 @@
 
 ---
 
-# 👶 AnakSehat
+# AnakSehat
 
 **AnakSehat** adalah aplikasi digital yang dirancang untuk membantu orang tua dan ibu muda dalam meningkatkan kesadaran akan kesehatan dan tumbuh kembang anak melalui informasi, edukasi, dan dukungan yang terintegrasi dalam satu platform.
 
