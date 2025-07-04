@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://github.com/Ryandra-TI01/RPL-WEB" target="_blank">
-    <img src="https://github.com/RPL-WEB/blob/main/public/admin/assets/img/logo-rpl.jpeg?raw=true" alt="Logo AnakSehat">
+    <img src="https://github.com/Ryandra-TI01/RPL-WEB/blob/main/public/admin/assets/img/logo-rpl.jpeg?raw=true" alt="Logo AnakSehat">
   </a>
 </p>
 
