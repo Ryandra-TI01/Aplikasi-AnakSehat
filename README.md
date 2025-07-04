@@ -1,6 +1,6 @@
 <p align="center">
-  <a href="https://github.com/Ryandra-TI01/RPL-WEB" target="_blank">
-    <img src="https://github.com/Ryandra-TI01/RPL-WEB/blob/main/public/admin/assets/img/logo-rpl.jpeg?raw=true" alt="Logo AnakSehat">
+  <a href="#" target="_blank" >
+    <img src="https://github.com/Ryandra-TI01/Aplikasi-AnakSehat/blob/main/public/admin/assets/img/logo-rpl.jpeg?raw=true" alt="Logo AnakSehat" style="border-radius: 50%; width: 150px;">
   </a>
 </p>
 
@@ -36,8 +36,8 @@
 ## 🚀 Instalasi
 
 ```bash
-git clone https://github.com/Ryandra-TI01/RPL-WEB
-cd RPL-WEB
+git clone https://github.com/Ryandra-TI01/Aplikasi-AnakSehat
+cd Aplikasi-AnakSehat
 
 composer install
 cp .env.example .env
